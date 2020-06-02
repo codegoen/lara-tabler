@@ -1,0 +1,49 @@
+{
+    "name": "rizkhal/lara-tabler",
+    "description": "Laravel using tabler",
+    "keywords": [
+        "tabler",
+        "laravel"
+    ],
+    "homepage": "https://github.com/codegoen/lara-tabler",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Muhammad Rizkhal Lamaau",
+            "email": "lamaaurizkhal@gmail.com",
+            "homepage": "https://rizkhal.github.io",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rizkhal\\Tabler\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rizkhal\\Tabler\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rizkhal\\Tabler\\TablerServiceProvider"
+            ]
+        }
+    }
+}
