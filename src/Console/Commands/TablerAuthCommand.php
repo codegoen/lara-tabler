@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rizkhal\Tabler\Console\Commands;
 
 use Illuminate\Console\Command;
 
 class TablerAuthCommand extends Command
 {
-    protected $signature = "make:tabler {--auth: make tabler auth scafolding}";
+    protected $signature = "tabler:make-auth";
 
-    protected $description = "Auth scafolding using tabler";
+    protected $description = "Make auth scafolding using tabler";
 
     protected $auth = [
         "/stubs/make/views/auth/login.stub" => "auth/login.blade.php",
@@ -23,6 +25,11 @@ class TablerAuthCommand extends Command
         parent::__construct();
     }
 
+    /**
+     * Execute the command
+     * 
+     * @return void
+     */
     public function handle(): void
     {
         $this->createDir();
@@ -35,24 +42,42 @@ class TablerAuthCommand extends Command
 
         $this->mix();
 
-        $this->info('Works like magic!');
+        $this->info('Auth scafolding view generated!');
     }
 
+    /**
+     * Put and copy file
+     * 
+     * @return void
+     */
     protected function mix(): void
     {
-        file_put_contents(
-            base_path('package.json'),
-            file_get_contents(__DIR__."/stubs/make/package.stub")
-        );
+      $this->put('package.json', 'package.stub');
+      $this->put('webpack.mix.js', 'webpack.mix.stub');
 
-        file_put_contents(
-            base_path('webpack.mix.js'),
-            file_get_contents(__DIR__."/stubs/make/webpack.mix.stub")
-        );
-
-        $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
+      $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
     }
 
+    /**
+     * Put contents
+     * 
+     * @param  string $current
+     * @param  string $target
+     * @return void
+     */
+    protected function put(string $current, string $target): void
+    {
+      file_put_contents(
+            base_path($current),
+            file_get_contents(__DIR__."/stubs/make/{$target}")
+        );
+    }
+
+    /**
+     * Create directory
+     * 
+     * @return void
+     */
     protected function createDir(): void
     {
         if (! is_dir(resource_path("views/auth"))) {
@@ -68,7 +93,15 @@ class TablerAuthCommand extends Command
         }
     }
 
-    protected function xcopy($source, $destination, $permissions = 0775)
+    /**
+     * Copy file
+     * 
+     * @param  string  $source
+     * @param  string  $destination
+     * @param  integer $permissions
+     * @return bool|void
+     */
+    protected function xcopy($source, $destination, $permissions = 0775): ?bool
     {
         // Check for symlinks
        if (is_link($source)) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rizkhal\Tabler;
 
 use Illuminate\Support\Facades\Blade;
@@ -26,10 +28,11 @@ class TablerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bladex custom
+     * Bladex custom components
+     * 
      * @return self
      */
-    protected function bladex()
+    protected function bladex(): self
     {
         Blade::component('layouts.app', 'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
@@ -39,9 +42,10 @@ class TablerServiceProvider extends ServiceProvider
 
     /**
      * Configure
+     * 
      * @return self
      */
-    protected function configure()
+    protected function configure(): self
     {
         $this->publishes([
             __DIR__.'/../../config/tabler.php' => config_path('tabler.php'),

@@ -23,7 +23,7 @@ try {
     require('tablesorter');
 
     // jQuery vector map
-    require('vector-map');
+    require('jvectormap');
 
     // Selectize
     require('selectize');
@@ -36,15 +36,6 @@ try {
 
     // select2
     require('select2');
-
-    // Tabler
-    require('tabler-ui/dist/assets/js/dashboard');
-
-    // Tabler Plugin
-    require('tabler-ui/src/assets/plugins/charts-c3/js/c3.min');
-    require('tabler-ui/src/assets/plugins/fullcalendar/js/fullcalendar.min');
-    require('tabler-ui/src/assets/plugins/input-mask/js/jquery.mask.min');
-    require('tabler-ui/src/assets/plugins/prismjs/js/prism.pack');
 
 } catch (e) {}
 

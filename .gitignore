@@ -5,5 +5,4 @@
 /vendor
 /coverage
 /node_modules
-/public/**
-!/public/*.ico
+/public
