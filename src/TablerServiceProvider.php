@@ -47,10 +47,6 @@ class TablerServiceProvider extends ServiceProvider
      */
     protected function configure(): self
     {
-        $this->publishes([
-            __DIR__.'/../../config/tabler.php' => config_path('tabler.php'),
-        ], 'config');
-
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'tabler');
 
         $this->publishes([

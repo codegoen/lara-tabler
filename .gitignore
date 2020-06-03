@@ -6,3 +6,7 @@
 /coverage
 /node_modules
 /public
+/config
+
+# file
+*.cache

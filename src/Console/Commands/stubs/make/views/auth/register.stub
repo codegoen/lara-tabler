@@ -2,27 +2,35 @@
 @section('content')
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col col-login mx-auto">
-        <div class="text-center mb-6">
-          <img src="{{ asset('images/brand/tabler.svg') }}" class="h-6" alt="">
+      <div class="col col-md-4 mx-auto">
+        <div class="text-center my-3 mt-4">
+          <img src="{{ asset('static/logo.svg') }}" class="h-5" alt="Logo">
         </div>
-        <form class="card" action="{{ route('login') }}" method="POST">
+        <form class="card" action="{{ route('register') }}" method="POST">
           {{ csrf_field() }}
-          <div class="card-body p-6">
-            <div class="card-title">{{ __('Login') }}</div>
+          <div class="card-body p-4">
+            <div class="card-title">{{ __('Register') }}</div>
             <div class="form-group">
+              <label class="form-label">{{ __('Name') }}</label>
+              <input type="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter name" value="{{ old('name') }}" required autofocus>
+              @if ($errors->has('name'))
+                <span class="invalid-feedback">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+              @endif
+            </div>
+            <div class="form-group mt-3">
               <label class="form-label">{{ __('E-Mail Address') }}</label>
-              <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{ old('email') }}" required autofocus>
+              <input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" value="{{ old('email') }}" required>
               @if ($errors->has('email'))
                 <span class="invalid-feedback">
                     <strong>{{ $errors->first('email') }}</strong>
                 </span>
               @endif
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
               <label class="form-label">
                 {{ __('Password') }}
-                <a href="{{ route('password.request') }}" class="float-right small">{{ __('Forgot Your Password?') }}</a>
               </label>
               <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" name="password" required>
               @if ($errors->has('password'))
@@ -31,19 +39,30 @@
                   </span>
               @endif
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
+              <label class="form-label">
+                {{ __('Password Confirmation') }}
+              </label>
+              <input id="password_confirmation" type="password_confirmation" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" placeholder="Confirm password" name="password_confirmation" required>
+              @if ($errors->has('password_confirmation'))
+                  <span class="invalid-feedback">
+                      <strong>{{ $errors->first('password_confirmation') }}</strong>
+                  </span>
+              @endif
+            </div>
+            <div class="form-group mt-3">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" name="remember" {{ old('remember') ? 'checked' : '' }}/>
                 <span class="custom-control-label">{{ __('Remember Me') }}</span>
               </label>
             </div>
             <div class="form-footer">
-              <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
+              <button type="submit" class="btn btn-primary btn-block">{{ __('Register') }}</button>
             </div>
           </div>
         </form>
-        <div class="text-center text-muted">
-          Don't have account yet? <a href="{{ route('register') }}">Sign up</a>
+        <div class="text-center text-muted mb-3">
+          Already account? <a href="{{ route('login') }}">Login</a>
         </div>
       </div>
     </div>

@@ -15,7 +15,8 @@ class TablerAuthCommand extends Command
     protected $auth = [
         "/stubs/make/views/auth/login.stub" => "auth/login.blade.php",
         "/stubs/make/views/auth/register.stub" => "auth/register.blade.php",
-        "/stubs/make/views/components/header.stub" => "components/header.blade.php",
+        "/stubs/make/views/auth/passwords/email.stub" => "auth/passwords/register.blade.php",
+        "/stubs/make/views/auth/passwords/reset.stub" => "auth/passwords/register.blade.php",
         "/stubs/make/views/layouts/app.stub" => "layouts/app.blade.php",
         "/stubs/make/views/layouts/auth.stub" => "layouts/auth.blade.php",
     ];
@@ -82,6 +83,10 @@ class TablerAuthCommand extends Command
     {
         if (! is_dir(resource_path("views/auth"))) {
             mkdir(resource_path("views/auth"), 0775, true);
+        }
+
+        if (! is_dir(resource_path("views/auth/passwords"))) {
+            mkdir(resource_path("views/auth/passwords"), 0775, true);
         }
 
         if (! is_dir(resource_path("views/layouts"))) {
