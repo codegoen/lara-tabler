@@ -6,7 +6,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/codegoen/lava-tabler/badges/build.png?b=master)](https://scrutinizer-ci.com/g/codegoen/lava-tabler/build-status/master)
 [![Total Downloads](https://img.shields.io/packagist/dt/rizkhal/:package_name.svg?style=flat-square)](https://packagist.org/packages/rizkhal/:package_name)
 
-![Featured image](docs/img/featured.png "Screenshot by @rizkhal")
+<div style="text-align:center;"><img src="docs/img/featured.png"></div>
 
 This is a simple package to speed up the development process using templates from [Tabler](https://tabler.io/ )
 
