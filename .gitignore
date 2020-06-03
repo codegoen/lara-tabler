@@ -1,7 +1,6 @@
 # directory
 /.phpintel
 /build
-/docs
 /vendor
 /coverage
 /node_modules
