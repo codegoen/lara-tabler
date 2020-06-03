@@ -28,8 +28,8 @@ class TablerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bladex custom components
-     * 
+     * Bladex custom components.
+     *
      * @return self
      */
     protected function bladex(): self
@@ -41,8 +41,8 @@ class TablerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure
-     * 
+     * Configure.
+     *
      * @return self
      */
     protected function configure(): self
@@ -50,12 +50,12 @@ class TablerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'tabler');
 
         $this->publishes([
-            __DIR__.'/../../resources/views' => resource_path('views/vendor/tabler')
+            __DIR__.'/../../resources/views' => resource_path('views/vendor/tabler'),
         ], 'views');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                TablerAuthCommand::class
+                TablerAuthCommand::class,
             ]);
         }
 
