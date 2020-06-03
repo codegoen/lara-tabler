@@ -23,26 +23,25 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="{{ mix('/css/tabler.css') }}" rel="stylesheet">
+    
   </head>
-  <body>
+  <body class="antialiased">  
     <div class="page">
-      <div class="page-main">
 
         <!-- Header -->
         <x-header></x-header>
 
         <!-- Content -->
-        @yield('content')
+        <div class="content">
 
-      </div>
+            @yield('content')
 
-      <!-- Footer -->
-      <x-footer></x-footer>
+            <!-- Footer -->
+            <x-footer></x-footer>
+        </div>
 
     </div>
 
-    <script src="{{ mix('/js/manifest.js') }}" charset="utf-8"></script>
-    <script src="{{ mix('/js/vendor.js') }}" charset="utf-8"></script>
     <script src="{{ mix('/js/tabler.js') }}" charset="utf-8"></script>
 
   </body>

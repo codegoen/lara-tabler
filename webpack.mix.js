@@ -1,41 +1,19 @@
+
+// generated using lava-tabler
+
 const mix = require('laravel-mix');
 
-mix.webpackConfig({
-  resolve: {
-    alias: {
-      'circle-progress': 'jquery-circle-progress',
-      'core': path.resolve(__dirname, 'node_modules/tabler-ui/dist/assets/js/core.js'),
-      'vector-map': 'jvectormap'
-    }
-  }
-});
+mix
+    .js('resources/assets/js/tabler.js', 'public/js')
 
-mix.js('resources/assets/js/tabler.js', 'public/js')
-   .sass('resources/assets/sass/tabler.scss', 'public/css');
+    .sass('resources/assets/scss/tabler.scss', 'public/css')
 
-mix.autoload({
-  jquery: [ '$', 'jQuery', 'jquery', 'window.jQuery'],
-});
+    .copyDirectory('resources/assets/img', 'public/img')
 
-mix.extract([
-  'lodash',
-  'popper.js',
-  'bootstrap',
-  'bootstrap-datepicker',
-  'bootstrap-sass',
-  'chart.js',
-  'd3',
-  'jquery',
-  'jquery-circle-progress',
-  'jvectormap',
-  'moment',
-  'requirejs/require',
-  'select2',
-  'selectize',
-  'sparkline',
-  'tablesorter'
-], 'public/js/vendor.js');
+    .copyDirectory('resources/assets/svg', 'public/svg')
 
-mix.version();
+    .copyDirectory('resources/assets/static', 'public/static')
 
-mix.setPublicPath('public');
+    .setPublicPath('public')
+    
+    .version();
