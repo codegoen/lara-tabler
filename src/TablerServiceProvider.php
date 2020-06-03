@@ -23,42 +23,23 @@ class TablerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->bladex()
-             ->configure();
-    }
-
-    /**
-     * Bladex custom components.
-     *
-     * @return self
-     */
-    protected function bladex(): self
-    {
-        Blade::component('layouts.app', 'app-layout');
-        Blade::component('layouts.auth', 'auth-layout');
-
-        return $this;
+        $this->configure();
     }
 
     /**
      * Configure.
      *
-     * @return self
+     * @return void
      */
-    protected function configure(): self
+    protected function configure(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'tabler');
-
-        $this->publishes([
-            __DIR__.'/../../resources/views' => resource_path('views/vendor/tabler'),
-        ], 'views');
+        Blade::component('layouts.app', 'app-layout');
+        Blade::component('layouts.auth', 'auth-layout');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
                 TablerAuthCommand::class,
             ]);
         }
-
-        return $this;
     }
 }

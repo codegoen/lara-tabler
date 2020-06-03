@@ -10,15 +10,19 @@ class TablerAuthCommand extends Command
 {
     protected $signature = 'tabler:make-auth';
 
-    protected $description = 'Make auth scafolding using tabler';
+    protected $description = 'Make auth view scaffolding using tabler';
 
     protected $auth = [
-        '/stubs/make/views/auth/login.stub' => 'auth/login.blade.php',
-        '/stubs/make/views/auth/register.stub' => 'auth/register.blade.php',
-        '/stubs/make/views/auth/passwords/email.stub' => 'auth/passwords/register.blade.php',
-        '/stubs/make/views/auth/passwords/reset.stub' => 'auth/passwords/register.blade.php',
-        '/stubs/make/views/layouts/app.stub' => 'layouts/app.blade.php',
-        '/stubs/make/views/layouts/auth.stub' => 'layouts/auth.blade.php',
+        "/stubs/make/views/auth/login.stub" => "auth/login.blade.php",
+        "/stubs/make/views/auth/register.stub" => "auth/register.blade.php",
+        "/stubs/make/views/auth/passwords/email.stub" => "auth/passwords/email.blade.php",
+        "/stubs/make/views/auth/passwords/reset.stub" => "auth/passwords/reset.blade.php",
+        "/stubs/make/views/home.stub" => "home.blade.php",
+        "/stubs/make/views/components/header.stub" => "components/header.blade.php",
+        "/stubs/make/views/components/navbar.stub" => "components/navbar.blade.php",
+        "/stubs/make/views/components/footer.stub" => "components/footer.blade.php",
+        "/stubs/make/views/layouts/app.stub" => "layouts/app.blade.php",
+        "/stubs/make/views/layouts/auth.stub" => "layouts/auth.blade.php",
     ];
 
     public function __construct()

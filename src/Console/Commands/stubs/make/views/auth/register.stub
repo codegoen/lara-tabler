@@ -43,7 +43,7 @@
               <label class="form-label">
                 {{ __('Password Confirmation') }}
               </label>
-              <input id="password_confirmation" type="password_confirmation" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" placeholder="Confirm password" name="password_confirmation" required>
+              <input id="password_confirmation" type="password" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" placeholder="Confirm password" name="password_confirmation" required>
               @if ($errors->has('password_confirmation'))
                   <span class="invalid-feedback">
                       <strong>{{ $errors->first('password_confirmation') }}</strong>

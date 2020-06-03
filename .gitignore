@@ -9,3 +9,7 @@
 
 # file
 *.cache
+package.json
+composer.lock
+webpack.mix.js
+package-lock.json
