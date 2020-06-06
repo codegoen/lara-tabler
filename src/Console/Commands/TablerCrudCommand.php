@@ -92,16 +92,31 @@ class TablerCrudCommand extends Command
             // check file app.blade.php exists or not
             if (! file_exists(resource_path('views/layouts/app.blade.php'))) {
                 // confirm make or not
-                if ($this->confirm('Layout file not found, do you want to make it ?')) {
+                if ($this->confirm('Layouts and components doesnt exists, do you want to copy it ?')) {
 
                     // make layout directory
                     $this->createViewsDirectory('layouts');
 
-                    // push it
+                    // copy layouts
                     $this->putContents(
                         resource_path('views/layouts/app.blade.php'),
                         $this->getStub('views/layouts/app.stub')
                     );
+
+                    // make components directory
+                    $this->createViewsDirectory('components');
+
+                    $components = [
+                        'views/components/header.stub' => 'views/components/header.blade.php',
+                        'views/components/aside.stub' => 'views/components/aside.blade.php',
+                        'views/components/footer.stub' => 'views/components/footer.blade.php',
+                    ];
+
+                    // copy components
+                    foreach ($components as $i => $view) {
+                        $this->putContents(resource_path($view), $this->getStub($i));
+                    }
+                    
                 }
             }
         }
