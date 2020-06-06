@@ -44,11 +44,11 @@ class TablerCrudCommand extends Command
 
         if (! $this->classExists($this->getArgument())) {
             $this->error("File {$this->type} already exists");
+        } else {
+            $this->view($name)->model($name)->controller($name)->request($name);
+            $this->info('Successfully make your tabler crud scafolding');
         }
 
-        $this->view($name)->model($name)->controller($name)->request($name);
-
-        $this->info('Successfully make your tabler crud scafolding');
     }
 
     /**

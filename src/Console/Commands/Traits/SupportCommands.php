@@ -83,10 +83,20 @@ trait SupportCommands
     {
         $dirname = trim(strtolower($dirname));
 
-        $directory = resource_path("views/{$dirname}");
+        if (preg_match('/(.blade.php)/', $dirname, $search)) {
+            if(preg_match('/^(.*)\/+(.*)/', $dirname, $match)) {
+                $directory = resource_path("views/".$match[1]);
 
-        if (! is_dir($directory)) {
-            return mkdir($directory, $permission, true);
+                if (! is_dir($directory)) {
+                    return mkdir($directory, $permission, true);
+                }
+            }
+        } else {
+            $directory = resource_path("views/{$dirname}");
+
+            if (! is_dir($directory)) {
+                return mkdir($directory, $permission, true);
+            }
         }
 
         return false;
