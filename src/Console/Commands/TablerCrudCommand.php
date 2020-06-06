@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Rizkhal\Tabler\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Rizkhal\Tabler\Console\Commands\Traits\SupportCommands;
 
 class TablerCrudCommand extends Command
@@ -28,6 +27,7 @@ class TablerCrudCommand extends Command
      * @return void
      */
     protected $type;
+
     public function __construct()
     {
         parent::__construct();
@@ -52,8 +52,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * Make model
-     * 
+     * Make model.
+     *
      * @param  string $name
      * @return self
      */
@@ -68,8 +68,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * make file crud skeleton and put it
-     * 
+     * make file crud skeleton and put it.
+     *
      * @param  string $dirname
      * @return self
      */
@@ -77,9 +77,8 @@ class TablerCrudCommand extends Command
     {
         // check file exists or not
         if (! $this->createViewsDirectory($dirname)) {
-            // if exists give alert 
-            $this->error("Directory ".strtolower($dirname)." already exists");
-
+            // if exists give alert
+            $this->error('Directory '.strtolower($dirname).' already exists');
         } else {
 
             // create directory where given name from console
@@ -87,7 +86,7 @@ class TablerCrudCommand extends Command
 
             // push views from stubs where directory given name from console
             foreach ($this->views as $i => $view) {
-                $this->putContents(resource_path("views/".strtolower($dirname)."/{$view}"), $this->getStub($i));
+                $this->putContents(resource_path('views/'.strtolower($dirname)."/{$view}"), $this->getStub($i));
             }
 
             // check file app.blade.php exists or not
@@ -100,10 +99,9 @@ class TablerCrudCommand extends Command
 
                     // push it
                     $this->putContents(
-                        resource_path("views/layouts/app.blade.php"),
+                        resource_path('views/layouts/app.blade.php'),
                         $this->getStub('views/layouts/app.stub')
                     );
-
                 }
             }
         }
@@ -112,8 +110,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * Make controller
-     * 
+     * Make controller.
+     *
      * @param  string $name
      * @return self
      */
@@ -128,8 +126,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * Make request
-     * 
+     * Make request.
+     *
      * @param  string $name
      * @return self
      */
@@ -144,8 +142,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * Replace class in stub file
-     * 
+     * Replace class in stub file.
+     *
      * @param  string $stub
      * @param  string $name
      * @return string
@@ -169,8 +167,8 @@ class TablerCrudCommand extends Command
     }
 
     /**
-     * Get argument from console
-     * 
+     * Get argument from console.
+     *
      * @return string
      */
     protected function getArgument(): string

@@ -41,7 +41,7 @@ class TablerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 TablerAuthCommand::class,
-                TablerCrudCommand::class
+                TablerCrudCommand::class,
             ]);
         }
 
@@ -49,14 +49,14 @@ class TablerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register helper
-     * 
+     * Register helper.
+     *
      * @return void
      */
     protected function registerHelper(): void
     {
-        if (file_exists(__DIR__."/helper.php")) {
-            require __DIR__."/helper.php";
+        if (file_exists(__DIR__.'/helper.php')) {
+            require __DIR__.'/helper.php';
         }
     }
 }
