@@ -48,7 +48,7 @@ class TablerAuthCommand extends Command
         if ($this->confirm('Do you want to make auth scaffolding controller?')) {
             $this->call('ui:controllers');
         }
-        
+
         foreach ($this->views as $i => $view) {
             $this->createViewsDirectory($view)->put(resource_path("views/{$view}"), __DIR__.$i);
         }

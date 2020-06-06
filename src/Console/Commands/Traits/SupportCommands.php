@@ -2,13 +2,11 @@
 
 namespace Rizkhal\Tabler\Console\Commands\Traits;
 
-use Illuminate\Support\Str;
-
 trait SupportCommands
 {
     /**
-     * Get stubs
-     * 
+     * Get stubs.
+     *
      * @param  string $name
      * @return string
      */
@@ -18,8 +16,8 @@ trait SupportCommands
     }
 
     /**
-     * Put contents
-     * 
+     * Put contents.
+     *
      * @param  string $filename
      * @param  string $resources
      * @return self
@@ -45,16 +43,19 @@ trait SupportCommands
 
         if (file_exists($model)) {
             $this->type = $model;
+
             return false;
         }
 
         if (file_exists($request)) {
             $this->type = $request;
+
             return false;
         }
 
         if (file_exists($controller)) {
             $this->type = $controller;
+
             return false;
         }
 
@@ -62,8 +63,8 @@ trait SupportCommands
     }
 
     /**
-     * Search replace class
-     * 
+     * Search replace class.
+     *
      * @param  string $filename
      * @param  string $type
      * @return string
@@ -74,8 +75,8 @@ trait SupportCommands
     }
 
     /**
-     * Create directory only in views
-     * 
+     * Create directory only in views.
+     *
      * @return void
      */
     protected function createViewsDirectory(string $dirname, int $permission = 0775)
