@@ -25,24 +25,28 @@
     <link href="{{ mix('/css/tabler.css') }}" rel="stylesheet">
     
   </head>
-  <body class="antialiased">  
-    <div class="page">
 
+  <body class="antialiased">  
+
+    <!-- Aside -->
+    <x-aside></x-aside>
+
+    <div class="page">
         <!-- Header -->
         <x-header></x-header>
 
         <!-- Content -->
-        <div class="content">
+        <div class="content container">
 
             @yield('content')
 
             <!-- Footer -->
             <x-footer></x-footer>
         </div>
-
     </div>
 
     <script src="{{ mix('/js/tabler.js') }}" charset="utf-8"></script>
 
   </body>
+
 </html>

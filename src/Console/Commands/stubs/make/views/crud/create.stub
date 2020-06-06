@@ -1,0 +1,26 @@
+<x-app-layout title="Create">
+    @section('content')
+        <div class="col-md-10 mx-auto">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Basic form</h3>
+            </div>
+            <div class="card-body">
+              <form method="post" action="" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group mb-3">
+                  <label class="form-label">Type Text</label>
+                  <input type="text" name="example1" class="form-control @error('example1') is-invalid @enderror" placeholder="Example1">
+                  @error('example1')
+                    <div class="invalid-feedback">{{$message}}</div>
+                  @enderror
+                </div>
+                <div class="form-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    @stop
+</x-app-layout>

@@ -7,6 +7,7 @@ namespace Rizkhal\Tabler;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
+use Rizkhal\Tabler\Console\Commands\TablerCrudCommand;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -23,15 +24,16 @@ class TablerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configure();
+        $this->configure()
+             ->registerHelper();
     }
 
     /**
      * Configure.
      *
-     * @return void
+     * @return self
      */
-    protected function configure(): void
+    protected function configure(): self
     {
         Blade::component('layouts.app', 'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
@@ -39,7 +41,22 @@ class TablerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 TablerAuthCommand::class,
+                TablerCrudCommand::class
             ]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register helper
+     * 
+     * @return void
+     */
+    protected function registerHelper(): void
+    {
+        if (file_exists(__DIR__."/helper.php")) {
+            require __DIR__."/helper.php";
         }
     }
 }

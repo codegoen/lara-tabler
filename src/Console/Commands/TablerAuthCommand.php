@@ -5,26 +5,34 @@ declare(strict_types=1);
 namespace Rizkhal\Tabler\Console\Commands;
 
 use Illuminate\Console\Command;
+use Rizkhal\Tabler\Console\Commands\Traits\SupportCommands;
 
 class TablerAuthCommand extends Command
 {
+    use SupportCommands;
+
     protected $signature = 'tabler:make-auth';
 
-    protected $description = 'Make auth view scaffolding using tabler';
+    protected $description = 'Make Authentication view scaffolding using tabler';
 
-    protected $auth = [
-        '/stubs/make/views/auth/login.stub' => 'auth/login.blade.php',
-        '/stubs/make/views/auth/register.stub' => 'auth/register.blade.php',
-        '/stubs/make/views/auth/passwords/email.stub' => 'auth/passwords/email.blade.php',
-        '/stubs/make/views/auth/passwords/reset.stub' => 'auth/passwords/reset.blade.php',
-        '/stubs/make/views/home.stub' => 'home.blade.php',
-        '/stubs/make/views/components/header.stub' => 'components/header.blade.php',
-        '/stubs/make/views/components/navbar.stub' => 'components/navbar.blade.php',
-        '/stubs/make/views/components/footer.stub' => 'components/footer.blade.php',
-        '/stubs/make/views/layouts/app.stub' => 'layouts/app.blade.php',
-        '/stubs/make/views/layouts/auth.stub' => 'layouts/auth.blade.php',
+    protected $views = [
+        '/views/home.stub' => 'home.blade.php',
+        '/views/auth/login.stub' => 'auth/login.blade.php',
+        '/views/auth/register.stub' => 'auth/register.blade.php',
+        '/views/auth/passwords/email.stub' => 'auth/passwords/email.blade.php',
+        '/views/auth/passwords/reset.stub' => 'auth/passwords/reset.blade.php',
+        '/views/components/header.stub' => 'components/header.blade.php',
+        '/views/components/aside.stub' => 'components/aside.blade.php',
+        '/views/components/footer.stub' => 'components/footer.blade.php',
+        '/views/layouts/app.stub' => 'layouts/app.blade.php',
+        '/views/layouts/auth.stub' => 'layouts/auth.blade.php',
     ];
 
+    /**
+     * Create a new controller creator command instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -37,105 +45,19 @@ class TablerAuthCommand extends Command
      */
     public function handle(): void
     {
-        $this->createDir();
-
-        foreach ($this->auth as $i => $view) {
-            file_put_contents(
-                resource_path("views/{$view}"), file_get_contents(__DIR__.$i));
+        if ($this->confirm('Do you want to make auth scaffolding controller?')) {
+            $this->call('ui:controllers');
+        }
+        
+        foreach ($this->views as $i => $view) {
+            $this->createViewsDirectory($view)->put(resource_path("views/{$view}"), __DIR__.$i);
         }
 
-        $this->mix();
+        $this->put(base_path('package.json'), $this->getStub('make/package'));
+        $this->put(base_path('webpack.mix.js'), $this->getStub('make/webpack.mix'));
 
-        $this->info('Auth scafolding view generated!');
-    }
+        $this->move(__DIR__.'/../../../resources/assets', resource_path('assets'));
 
-    /**
-     * Put and copy file.
-     *
-     * @return void
-     */
-    protected function mix(): void
-    {
-        $this->put('package.json', 'package.stub');
-        $this->put('webpack.mix.js', 'webpack.mix.stub');
-
-        $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
-    }
-
-    /**
-     * Put contents.
-     *
-     * @param  string $current
-     * @param  string $target
-     * @return void
-     */
-    protected function put(string $current, string $target): void
-    {
-        file_put_contents(
-            base_path($current),
-            file_get_contents(__DIR__."/stubs/make/{$target}")
-        );
-    }
-
-    /**
-     * Create directory.
-     *
-     * @return void
-     */
-    protected function createDir(): void
-    {
-        if (! is_dir(resource_path('views/auth'))) {
-            mkdir(resource_path('views/auth'), 0775, true);
-        }
-
-        if (! is_dir(resource_path('views/auth/passwords'))) {
-            mkdir(resource_path('views/auth/passwords'), 0775, true);
-        }
-
-        if (! is_dir(resource_path('views/layouts'))) {
-            mkdir(resource_path('views/layouts'), 0775, true);
-        }
-
-        if (! is_dir(resource_path('views/components'))) {
-            mkdir(resource_path('views/components'), 0755, true);
-        }
-    }
-
-    /**
-     * Copy file.
-     *
-     * @param  string  $source
-     * @param  string  $destination
-     * @param  int $permissions
-     * @return bool|void
-     */
-    protected function xcopy($source, $destination, $permissions = 0775): ?bool
-    {
-        // Check for symlinks
-        if (is_link($source)) {
-            return symlink(readlink($source), $destination);
-        }
-        // Simple copy for a file
-        if (is_file($source)) {
-            return copy($source, $destination);
-        }
-        // Make destination directory
-        if (! is_dir($destination)) {
-            mkdir($destination, $permissions);
-        }
-        // Loop through the folder
-        $dir = dir($source);
-        while (false !== $entry = $dir->read()) {
-            // Skip pointers
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
-            // Deep copy directories
-            $this->xcopy("$source/$entry", "$destination/$entry", $permissions);
-        }
-        // Clean up
-        $dir->close();
-
-        return true;
+        $this->info('Authentication view using tabler generated.');
     }
 }
