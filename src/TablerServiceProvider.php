@@ -6,8 +6,6 @@ namespace Rizkhal\Tabler;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Ui\UiCommand;
-use Rizkhal\Tabler\Console\Commands\CommandTablerAuth;
 use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
 use Rizkhal\Tabler\Console\Commands\TablerComponentCommand;
 

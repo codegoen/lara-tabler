@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Rizkhal\Tabler\Console\Commands\Presents;
 
-use Illuminate\Support\Arr;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
-use Laravel\Ui\Presets\Preset;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laravel\Ui\Presets\Preset;
 use Symfony\Component\Finder\SplFileInfo;
 
 class TablerAuth extends Preset
 {
     /**
-     * Init dependencies
-     * 
-     * @param  boolean $withAuth
+     * Init dependencies.
+     *
+     * @param  bool $withAuth
      * @return void
      */
     public static function install($withAuth = false): void
@@ -31,8 +31,8 @@ class TablerAuth extends Preset
     }
 
     /**
-     * Update package
-     * 
+     * Update package.
+     *
      * @param  array  $packages
      * @return array
      */
@@ -41,12 +41,12 @@ class TablerAuth extends Preset
         $packagesToAdd = [
             'jquery' => '^3.5.0',
             'popper.js' => '^1.16.1',
-            'tabler' => '^1.0.0-alpha.7'
+            'tabler' => '^1.0.0-alpha.7',
         ];
 
         $packagesToRemove = [
             'axios',
-            'lodash'
+            'lodash',
         ];
 
         return array_merge(
@@ -57,8 +57,8 @@ class TablerAuth extends Preset
 
     /**
      * Delete existsing assets in public path,
-     * resource path and copy stubs to public
-     * 
+     * resource path and copy stubs to public.
+     *
      * @return void
      */
     protected static function updateStyles(): void
@@ -73,8 +73,8 @@ class TablerAuth extends Preset
     }
 
     /**
-     * Re-bootstraping assets
-     * 
+     * Re-bootstraping assets.
+     *
      * @return void
      */
     protected static function updateBootstrapping(): void
@@ -83,14 +83,14 @@ class TablerAuth extends Preset
             unlink(resource_path('assets/js/bootstrap.js'));
         }
 
-        file_put_contents(resource_path('js/bootstrap.js'), 
-            file_get_contents(__DIR__.'/tabler-auth-stubs/resources/js/bootstrap.js')  
+        file_put_contents(resource_path('js/bootstrap.js'),
+            file_get_contents(__DIR__.'/tabler-auth-stubs/resources/js/bootstrap.js')
         );
     }
 
     /**
-     * Update welcome page
-     * 
+     * Update welcome page.
+     *
      * @return void
      */
     protected static function updateWelcomePage(): void
@@ -105,8 +105,8 @@ class TablerAuth extends Preset
     }
 
     /**
-     * Scafollding controller
-     * 
+     * Scafollding controller.
+     *
      * @return void
      */
     protected static function scaffoldController(): void
@@ -127,8 +127,8 @@ class TablerAuth extends Preset
     }
 
     /**
-     * Scafollding authentication
-     * 
+     * Scafollding authentication.
+     *
      * @return void
      */
     protected static function scaffoldAuth(): void

@@ -46,9 +46,8 @@ class TablerComponentCommand extends Command
 
         $root = __DIR__.'/Presents/tabler-components-stubs/';
 
-        if(! is_null($optionComponent = $this->option('component'))) {
-
-            $componentInStubs = $root.$optionComponent.".blade.php";
+        if (! is_null($optionComponent = $this->option('component'))) {
+            $componentInStubs = $root.$optionComponent.'.blade.php';
 
             if (! file_exists($componentInStubs)) {
                 $this->error("Component {$optionComponent} doesnt exists.");
@@ -73,7 +72,7 @@ class TablerComponentCommand extends Command
 
         foreach ($components as $i => $component) {
             $files = str_replace(
-                        __DIR__.'/Presents/tabler-components-stubs/', 
+                        __DIR__.'/Presents/tabler-components-stubs/',
                         resource_path('views/components/'),
                         $component
                     );

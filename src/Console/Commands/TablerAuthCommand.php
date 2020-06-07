@@ -37,9 +37,10 @@ class TablerAuthCommand extends Command
         static::ensureDirectoriesExist();
 
         /** install */
-        if (is_dir(app_path('Http/Controllers/Auth')) && !$this->option('force')) {
+        if (is_dir(app_path('Http/Controllers/Auth')) && ! $this->option('force')) {
             if (! $this->confirm('The Auth directory already exists. Do you want to replace it ?')) {
                 $this->comment('Tabler scaffolding canceled');
+
                 return false;
             }
         }
