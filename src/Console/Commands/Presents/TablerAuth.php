@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Rizkhal\Tabler\Console\Commands;
+namespace Rizkhal\Tabler\Console\Commands\Presents;
 
-use Artisan;
 use Illuminate\Support\Arr;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
@@ -12,7 +11,7 @@ use Laravel\Ui\Presets\Preset;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 
-class CommandTablerAuth extends Preset
+class TablerAuth extends Preset
 {
     /**
      * Init dependencies
@@ -74,7 +73,7 @@ class CommandTablerAuth extends Preset
             //     $filesystem->makeDirectory($directory, 0755, true);
             // }
 
-            $filesystem->copyDirectory(__DIR__.'/../../stubs/resources/sass', resource_path('sass'));
+            $filesystem->copyDirectory(__DIR__.'/../../../stubs/resources/sass', resource_path('sass'));
         });
     }
 
@@ -96,7 +95,7 @@ class CommandTablerAuth extends Preset
         }
 
         file_put_contents(resource_path('js/bootstrap.js'),
-            (new Filesystem)->get(__DIR__.'/../../stubs/resources/js/bootstrap.js')
+            (new Filesystem)->get(__DIR__.'/../../../stubs/resources/js/bootstrap.js')
         );
     }
 
@@ -111,7 +110,7 @@ class CommandTablerAuth extends Preset
             resource_path('views/welcome.blade.php')
         );
 
-        copy(__DIR__.'/../../stubs/resources/views/welcome.blade.php', resource_path('views/welcome.blade.php'));
+        copy(__DIR__.'/../../../stubs/resources/views/welcome.blade.php', resource_path('views/welcome.blade.php'));
     }
 
     /**
@@ -152,7 +151,7 @@ class CommandTablerAuth extends Preset
         );
 
         tap(new Filesystem, function ($filesystem) {
-            $filesystem->copyDirectory(__DIR__.'/../../stubs/resources/views', resource_path('views'));
+            $filesystem->copyDirectory(__DIR__.'/../../../stubs/resources/views', resource_path('views'));
 
             collect($filesystem->allFiles(base_path('vendor/laravel/ui/stubs/migrations')))
                 ->each(function (SplFileInfo $file) use ($filesystem) {
@@ -174,7 +173,7 @@ class CommandTablerAuth extends Preset
         return str_replace(
             '{{namespace}}',
             Container::getInstance()->getNamespace(),
-            file_get_contents(__DIR__.'/../../stubs/Controllers/HomeController.stub')
+            file_get_contents(__DIR__.'/../../../stubs/Controllers/HomeController.stub')
         );
     }
 }

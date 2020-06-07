@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Ui\UiCommand;
 use Rizkhal\Tabler\Console\Commands\CommandTablerAuth;
+use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,7 @@ class TablerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->uiCommand();
+        //
     }
 
     /**
@@ -37,28 +38,12 @@ class TablerServiceProvider extends ServiceProvider
         Blade::component('layouts.app', 'app-layout');
         Blade::component('layouts.auth', 'auth-layout');
 
-        // if ($this->app->runningInConsole()) {
-        //     $this->commands([
-        //         //
-        //     ]);
-        // }
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                TablerAuthCommand::class
+            ]);
+        }
 
         return $this;
-    }
-
-    /**
-     * UI Command using laravel/ui
-     * 
-     * @return void
-     */
-    protected function uiCommand(): void
-    {
-        UiCommand::macro('tabler', function ($command) {
-            
-            CommandTablerAuth::install();
-
-            $command->info('Auth scaffolding installed successfully.');
-            $command->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
-        });
     }
 }
