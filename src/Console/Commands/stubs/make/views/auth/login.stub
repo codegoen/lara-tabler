@@ -42,7 +42,7 @@
             </div>
           </div>
         </form>
-        <div class="text-center text-muted">
+        <div class="text-center text-muted mb-3">
           Don't have account yet? <a href="{{ route('register') }}">Sign up</a>
         </div>
       </div>

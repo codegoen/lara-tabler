@@ -41,17 +41,23 @@ trait SupportCommands
         $request = $this->searchClass("Http\\Requests\\{$rawName}", 'request');
         $controller = $this->searchClass("Http\\Controllers\\{$rawName}", 'controller');
 
+        if (file_exists($request)) {
+            $this->type = $request;
+
+            return false;
+        }
+        
         if (file_exists($model)) {
             $this->type = $model;
 
             return false;
         }
 
-        if (file_exists($request)) {
-            $this->type = $request;
+        // if (file_exists($request)) {
+        //     $this->type = $request;
 
-            return false;
-        }
+        //     return false;
+        // }
 
         if (file_exists($controller)) {
             $this->type = $controller;

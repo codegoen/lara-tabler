@@ -11,9 +11,9 @@ class TablerAuthCommand extends Command
 {
     use SupportCommands;
 
-    protected $signature = 'tabler:make-auth';
+    protected $signature = 'tabler:make-auth {--force}';
 
-    protected $description = 'Make Authentication view scaffolding using tabler';
+    protected $description = 'Create Authentication view scaffolding using tabler';
 
     protected $views = [
         'views/auth/passwords/email.stub' => 'auth/passwords/email.blade.php',
@@ -45,10 +45,23 @@ class TablerAuthCommand extends Command
      */
     public function handle(): void
     {
+        if ($this->option('force')) {
+            if ($this->confirm('This will overwrite authentication scaffolding')) {
+                $this->call('ui:controllers');
+                foreach ($this->views as $i => $view) {
+                    $this->createViewsDirectory($view);
+                    $this->putContents(resource_path("views/{$view}"), $this->getStub($i));
+                }
+            }
+        }
+
         if (! is_dir(app_path('Http/Controllers/Auth'))) {
             if ($this->confirm('Auth directory doesnt exists, do you want to copy it ?')) {
                 $this->call('ui:controllers');
             }
+        } else {
+            $this->error('Auth scaffolding is exists');
+            exit;
         }
 
         if (! is_dir('views/layouts') && ! is_dir('views/components')) {
@@ -56,9 +69,13 @@ class TablerAuthCommand extends Command
                 $this->createViewsDirectory($view);
                 $this->putContents(resource_path("views/{$view}"), $this->getStub($i));
             }
+        } else {
+            $this->error('Auth layouts and views is exists');
+            exit;
         }
 
         $this->putContents(base_path('package.json'), $this->getStub('package.stub'));
+
         $this->putContents(base_path('webpack.mix.js'), $this->getStub('webpack.mix.stub'));
 
         $this->move(__DIR__.'/../../../resources/assets', resource_path('assets'));

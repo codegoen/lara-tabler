@@ -11,9 +11,11 @@ class TablerCrudCommand extends Command
 {
     use SupportCommands;
 
-    protected $signature = 'tabler:make-crud {name}';
+    protected $type;
 
-    protected $description = 'Make crud';
+    protected $signature = 'tabler:make-crud {name : Name for controller, model, request, route and view directory} {--force}';
+
+    protected $description = 'Create crud scafolding';
 
     protected $views = [
         'views/crud/index.stub' => 'index.blade.php',
@@ -26,8 +28,6 @@ class TablerCrudCommand extends Command
      *
      * @return void
      */
-    protected $type;
-
     public function __construct()
     {
         parent::__construct();
@@ -42,7 +42,10 @@ class TablerCrudCommand extends Command
     {
         $name = $this->getArgument();
 
-        if (! $this->classExists($this->getArgument())) {
+        if (
+                ! $this->option('force') &&
+                ! $this->classExists($this->getArgument())
+            ) {
             $this->error("File {$this->type} already exists");
         } else {
             $this->view($name)->model($name)->controller($name)->request($name);
@@ -76,7 +79,10 @@ class TablerCrudCommand extends Command
     protected function view(string $dirname): self
     {
         // check file exists or not
-        if (! $this->createViewsDirectory($dirname)) {
+        if (
+                ! $this->option('force') &&
+                ! $this->createViewsDirectory($dirname)
+            ) {
             // if exists give alert
             $this->error('Directory '.strtolower($dirname).' already exists');
         } else {
@@ -130,8 +136,10 @@ class TablerCrudCommand extends Command
      * @param  string $name
      * @return self
      */
-    protected function controller(string $name): self
+    protected function controller(string $name)
     {
+        // dd(controller_path("{$name}Controller.php"));
+        
         $this->putContents(
             controller_path("{$name}Controller.php"),
             $this->replaceClass($this->getStub('app/controller.stub'), $name)
