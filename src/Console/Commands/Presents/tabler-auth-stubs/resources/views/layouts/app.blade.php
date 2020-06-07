@@ -23,7 +23,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link href="{{ mix('/css/tabler.css') }}" rel="stylesheet">
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     
   </head>
 
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <script src="{{ mix('/js/tabler.js') }}" charset="utf-8"></script>
+    <script src="{{ mix('/js/app.js') }}" charset="utf-8"></script>
 
   </body>
 
