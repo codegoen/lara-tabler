@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Ui\UiCommand;
 use Rizkhal\Tabler\Console\Commands\CommandTablerAuth;
 use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
+use Rizkhal\Tabler\Console\Commands\TablerComponentCommand;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -40,7 +41,8 @@ class TablerServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                TablerAuthCommand::class
+                TablerAuthCommand::class,
+                TablerComponentCommand::class,
             ]);
         }
 

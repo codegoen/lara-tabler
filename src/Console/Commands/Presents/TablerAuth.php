@@ -11,7 +11,7 @@ use Laravel\Ui\Presets\Preset;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 
-class Tabler extends Preset
+class TablerAuth extends Preset
 {
     /**
      * Init dependencies
@@ -68,7 +68,7 @@ class Tabler extends Preset
             $filesystem->delete(public_path('js/app.js'));
             $filesystem->delete(public_path('css/app.css'));
 
-            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/sass', resource_path('sass'));
+            $filesystem->copyDirectory(__DIR__.'/tabler-auth-stubs/resources/sass', resource_path('sass'));
         });
     }
 
@@ -84,7 +84,7 @@ class Tabler extends Preset
         }
 
         file_put_contents(resource_path('js/bootstrap.js'), 
-            file_get_contents(__DIR__.'/tabler-stubs/resources/js/bootstrap.js')  
+            file_get_contents(__DIR__.'/tabler-auth-stubs/resources/js/bootstrap.js')  
         );
     }
 
@@ -99,7 +99,7 @@ class Tabler extends Preset
             unlink(resource_path('views/welcome.blade.php'));
         }
 
-        copy(__DIR__.'/tabler-stubs/resources/views/welcome.blade.php',
+        copy(__DIR__.'/tabler-auth-stubs/resources/views/welcome.blade.php',
             resource_path('views/welcome.blade.php')
         );
     }
@@ -142,7 +142,7 @@ class Tabler extends Preset
         );
 
         tap(new Filesystem, function ($filesystem) {
-            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/views', resource_path('views'));
+            $filesystem->copyDirectory(__DIR__.'/tabler-auth-stubs/resources/views', resource_path('views'));
 
             collect($filesystem->allFiles(base_path('vendor/laravel/ui/stubs/migrations')))
                 ->each(function (SplFileInfo $file) use ($filesystem) {
@@ -164,7 +164,7 @@ class Tabler extends Preset
         return str_replace(
             '{{namespace}}',
             Container::getInstance()->getNamespace(),
-            file_get_contents(__DIR__.'/tabler-stubs/HomeController.stub')
+            file_get_contents(__DIR__.'/tabler-auth-stubs/HomeController.stub')
         );
     }
 }

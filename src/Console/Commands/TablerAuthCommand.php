@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Rizkhal\Tabler\Console\Commands;
 
 use Illuminate\Console\Command;
-use Rizkhal\Tabler\Console\Commands\Presents\Tabler;
+use Rizkhal\Tabler\Console\Commands\Presents\TablerAuth;
 
 class TablerAuthCommand extends Command
 {
@@ -44,7 +44,7 @@ class TablerAuthCommand extends Command
             }
         }
 
-        Tabler::install();
+        TablerAuth::install();
 
         $this->info('Tabler scaffolding installed successfully.');
         $this->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
