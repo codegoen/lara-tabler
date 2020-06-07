@@ -22,7 +22,7 @@ class TablerAuthCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Scaffold basic login and registration views and routes using tabler premium template';
+    protected $description = 'Scaffold basic login, registration, views and routes using tabler premium template';
 
     /**
      * Execute the console command.

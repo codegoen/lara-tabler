@@ -21,7 +21,7 @@ class TablerComponentCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Add components using tabler';
+    protected $description = 'Create components using tabler';
 
     /**
      * Create a new command instance.
