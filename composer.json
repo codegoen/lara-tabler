@@ -31,10 +31,7 @@
     "autoload": {
         "psr-4": {
             "Rizkhal\\Tabler\\": "src"
-        },
-        "files": [
-            "src/helper.php"  
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
