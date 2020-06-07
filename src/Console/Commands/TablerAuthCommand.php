@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rizkhal\Tabler\Console\Commands;
 
 use Illuminate\Console\Command;
-use Rizkhal\Tabler\Console\Commands\Presents\TablerAuth;
+use Rizkhal\Tabler\Console\Commands\Presents\Tabler;
 
 class TablerAuthCommand extends Command
 {
@@ -27,23 +29,53 @@ class TablerAuthCommand extends Command
      *
      * @return void
      *
-     * @throws \InvalidArgumentException
+     * @throws bool|void
      */
     public function handle()
     {
-        $this->bootstrap();
-    }
+        /** make directory if not exists */
+        static::ensureDirectoriesExist();
 
-    /**
-     * Install the "bootstrap" preset.
-     *
-     * @return void
-     */
-    protected function bootstrap()
-    {
-        TablerAuth::install();
+        /** install */
+        if (is_dir(app_path('Http/Controllers/Auth')) && !$this->option('force')) {
+            if (! $this->confirm('The Auth directory already exists. Do you want to replace it ?')) {
+                $this->comment('Tabler scaffolding canceled');
+                return false;
+            }
+        }
+
+        Tabler::install();
 
         $this->info('Tabler scaffolding installed successfully.');
         $this->comment('Please run "npm install && npm run dev" to compile your fresh scaffolding.');
+    }
+
+    /**
+     * Create the directories for the files.
+     *
+     * @return void
+     */
+    protected static function ensureDirectoriesExist(): void
+    {
+        if (! is_dir($directory = self::getViewPath('layouts'))) {
+            mkdir($directory, 0755, true);
+        }
+
+        if (! is_dir($directory = self::getViewPath('auth/passwords'))) {
+            mkdir($directory, 0755, true);
+        }
+    }
+
+    /**
+     * Get full view path relative to the application's configured view path.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    protected static function getViewPath($path): string
+    {
+        return implode(DIRECTORY_SEPARATOR, [
+            config('view.paths')[0] ?? resource_path('views'), $path,
+        ]);
     }
 }

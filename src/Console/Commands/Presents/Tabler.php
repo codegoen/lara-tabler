@@ -11,7 +11,7 @@ use Laravel\Ui\Presets\Preset;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 
-class TablerAuth extends Preset
+class Tabler extends Preset
 {
     /**
      * Init dependencies
@@ -68,12 +68,7 @@ class TablerAuth extends Preset
             $filesystem->delete(public_path('js/app.js'));
             $filesystem->delete(public_path('css/app.css'));
 
-            // if sass directory not exists, make it..
-            // if (! $filesystem->isDirectory($directory = resource_path('sass'))) {
-            //     $filesystem->makeDirectory($directory, 0755, true);
-            // }
-
-            $filesystem->copyDirectory(__DIR__.'/../../../stubs/resources/sass', resource_path('sass'));
+            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/sass', resource_path('sass'));
         });
     }
 
@@ -85,17 +80,11 @@ class TablerAuth extends Preset
     protected static function updateBootstrapping(): void
     {
         if (file_exists(resource_path('assets/js/bootstrap.js'))) {
-            (new Filesystem)->delete(
-                resource_path('assets/js/bootstrap.js')
-            );
+            unlink(resource_path('assets/js/bootstrap.js'));
         }
 
-        if (! is_dir(resource_path('js'))) {
-            mkdir(resource_path('js'), 0777, true);
-        }
-
-        file_put_contents(resource_path('js/bootstrap.js'),
-            (new Filesystem)->get(__DIR__.'/../../../stubs/resources/js/bootstrap.js')
+        file_put_contents(resource_path('js/bootstrap.js'), 
+            file_get_contents(__DIR__.'/tabler-stubs/resources/js/bootstrap.js')  
         );
     }
 
@@ -106,11 +95,13 @@ class TablerAuth extends Preset
      */
     protected static function updateWelcomePage(): void
     {
-        (new Filesystem)->delete(
+        if (file_exists(resource_path('views/welcome.blade.php'))) {
+            unlink(resource_path('views/welcome.blade.php'));
+        }
+
+        copy(__DIR__.'/tabler-stubs/resources/views/welcome.blade.php',
             resource_path('views/welcome.blade.php')
         );
-
-        copy(__DIR__.'/../../../stubs/resources/views/welcome.blade.php', resource_path('views/welcome.blade.php'));
     }
 
     /**
@@ -151,7 +142,7 @@ class TablerAuth extends Preset
         );
 
         tap(new Filesystem, function ($filesystem) {
-            $filesystem->copyDirectory(__DIR__.'/../../../stubs/resources/views', resource_path('views'));
+            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/views', resource_path('views'));
 
             collect($filesystem->allFiles(base_path('vendor/laravel/ui/stubs/migrations')))
                 ->each(function (SplFileInfo $file) use ($filesystem) {
@@ -164,8 +155,8 @@ class TablerAuth extends Preset
     }
 
     /**
-     * Compile HomeController
-     * 
+     * Compiles the "HomeController" stub.
+     *
      * @return string
      */
     protected static function compileControllerStub(): string
@@ -173,7 +164,7 @@ class TablerAuth extends Preset
         return str_replace(
             '{{namespace}}',
             Container::getInstance()->getNamespace(),
-            file_get_contents(__DIR__.'/../../../stubs/Controllers/HomeController.stub')
+            file_get_contents(__DIR__.'/tabler-stubs/HomeController.stub')
         );
     }
 }

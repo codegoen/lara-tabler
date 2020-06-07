@@ -35,7 +35,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Rizkhal\\Tabler\\Tests\\": "tests"
+            "Rizkhal\\Tabler\\Tests\\": "tests",
+            "App\\": "vendor/orchestra/testbench-core/laravel/app"
         }
     },
     "scripts": {
