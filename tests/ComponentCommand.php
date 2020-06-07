@@ -11,7 +11,7 @@ class ComponentCommand extends TestCase
 
     public function test_create_component()
     {
-        $this->artisan('tabler:component');
+        $this->artisan('tabler:components');
         $this->assertStringContainsStringIgnoringCase('All components successfully created.', 'All components successfully created.');
     }
 }

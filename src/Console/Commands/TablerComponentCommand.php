@@ -13,7 +13,7 @@ class TablerComponentCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tabler:component
+    protected $signature = 'tabler:components
                         {--component= : Component}';
 
     /**
