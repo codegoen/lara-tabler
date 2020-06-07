@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizkhal\Tabler\Tests; 
+namespace Rizkhal\Tabler\Tests;
 
 class AuthScafolldingCommandTest extends TestCase
 {
