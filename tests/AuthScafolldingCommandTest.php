@@ -11,6 +11,8 @@ class AuthScafolldingCommandTest extends TestCase
 
     public function test_tabler_auth()
     {
-        // $this->artisan('tabler:auth')->assertExitCode(0);
+        $this->artisan('tabler:auth')
+             ->expectsQuestion('The Auth directory already exists. Do you want to replace it ?', 'yes')
+             ->assertExitCode(0);
     }
 }
