@@ -43,7 +43,6 @@ class TablerServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 TablerAuthCommand::class,
-                TablerCrudCommand::class,
                 TablerComponentCommand::class,
             ]);
         }
