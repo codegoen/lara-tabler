@@ -1,10 +1,11 @@
 {
     "name": "rizkhal/lara-tabler",
-    "description": "Laravel using tabler",
+    "description": "Laravel CRUD Generator using tabler",
     "type": "package",
     "keywords": [
         "tabler",
-        "laravel"
+        "laravel",
+        "crud generator"
     ],
     "homepage": "https://github.com/codegoen/lara-tabler",
     "license": "MIT",
