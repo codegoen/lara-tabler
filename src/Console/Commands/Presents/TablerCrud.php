@@ -6,8 +6,9 @@ namespace Rizkhal\Tabler\Console\Commands\Presents;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
+use Rizkhal\Tabler\Console\Commands\Presents\Build;
 
-class TablerCrud
+class TablerCrud extends Build
 {
     /**
      * Stubs filename
@@ -30,73 +31,34 @@ class TablerCrud
             }
         }
 
-        $this->buildClass();
+        $this->buildModel()->buildController();
     }
 
-    /**
-     * Build the class
-     * 
-     * @return void
-     */
-    protected function buildClass()
+    protected function buildModel(): self
     {
-        foreach ($this->stubs as $i => $stub) {
-            $contents = $this->getStubs($i);
-            $this
-                ->replaceNamespace($contents, $stub)
-                ->replaceClass($contents, $stub)
-                ->replaceSoftDelete($contents, $stub);
+        foreach (array_keys($this->stubs) as $i => $type) {
+            if ($type == "model") {
+                $stub = $this->getStubs($type);
+                $this->replaceNamespace($stub, $type)
+                     ->replaceClass($stub, $this->stubs[$type])
+                     ->replaceSoftDelete($stub, $this->stubs[$type]);
+            }
         }
-    }
-
-    protected function getStubs($filename): string
-    {
-        return file_get_contents(__DIR__."/tabler-crud-stubs/{$filename}.stub");
-    }
-
-    /**
-     * Replace the namespace
-     * 
-     * @param  string &$contents
-     * @param  string $namespace
-     * @return self
-     */
-    protected function replaceNamespace(string &$contents, string $namespace): self
-    {
-        $contents = str_replace("{{namespace}}", "App", $contents);
 
         return $this;
     }
 
-    /**
-     * Replace the class name
-     * 
-     * @param  string &$contents
-     * @param  string $class
-     * @return self
-     */
-    protected function replaceClass(string &$contents, string $class): self
+    protected function buildController(): self
     {
-        $contents = str_replace("{{class}}", $class, $contents);
-
-        return $this;
-    }
-
-    /**
-     * Replace the (optional) soft deletes part for the given stub.
-     *
-     * @param  string  $contents
-     * @param  string  $softDeletes
-     *
-     * @return self
-     */
-    protected function replaceSoftDelete(&$contents, $softDeletes): self
-    {
-        $contents = str_replace('{{softDeletes}}', "use SoftDeletes;\n", $contents);
-        $contents = str_replace('{{useSoftDeletes}}', "use Illuminate\Database\Eloquent\SoftDeletes;\n", $contents);
-
-        dd($contents);
-
+        foreach (array_keys($this->stubs) as $i => $type) {
+            if ($type == "controller") {
+                $stub = $this->getStubs($type);
+                $this->replaceNamespace($stub, $type)
+                     ->replaceClass($stub, $this->stubs[$type])
+                     ->replaceModelName($stub, $this->stubs["model"]);
+            }
+        }
+        
         return $this;
     }
 }

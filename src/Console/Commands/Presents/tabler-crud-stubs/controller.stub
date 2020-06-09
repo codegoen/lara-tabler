@@ -5,7 +5,7 @@ namespace {{namespace}};
 use DummyRootNamespaceHttp\Requests;
 use DummyRootNamespaceHttp\Controllers\Controller;
 
-use DummyRootNamespace{{modelNamespace}}{{modelName}};
+use {{rootNamespace}}{{modelNamespace}}{{modelName}};
 use Illuminate\Http\Request;
 
 class {{class}} extends Controller

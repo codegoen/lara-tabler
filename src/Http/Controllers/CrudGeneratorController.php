@@ -22,8 +22,9 @@ class CrudGeneratorController extends Controller
         return view('tabler::index');
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
+        dd($request->all());
         $this->crud->getRequest($request->all());
     }
 }

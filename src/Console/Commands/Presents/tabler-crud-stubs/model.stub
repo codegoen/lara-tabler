@@ -11,13 +11,6 @@ class {{class}} extends Model
     {{softDeletes}}
 
     /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = '{{table}}';
-
-    /**
      * Attributes that should be mass-assignable.
      *
      * @var array

@@ -78,7 +78,7 @@ class TablerServiceProvider extends ServiceProvider
 
         Route::group($group, function() {
             Route::get("/", [CrudGeneratorController::class, "index"])->name("tabler.index");
-            Route::post("store", [CrudGeneratorController::class, "store"])->name("tabler.store");
+            Route::post("create", [CrudGeneratorController::class, "create"])->name("tabler.create");
         });
 
         return $this;
