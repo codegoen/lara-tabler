@@ -1,3 +1,10 @@
+@if (\Route::has('rizkhal.model.index'))
+    <div class="nav-item">
+        <a href="{{ route('rizkhal.model.index') }}" class="nav-link d-flex lh-1 text-white px-3 color-white bg-pink mr-4">
+            Crud Generator
+        </a>
+    </div>
+@endif
 <div class="nav-item dropdown">
     <a href="#" class="p-0 nav-link d-flex lh-1 text-reset" data-toggle="dropdown">
         <span class="avatar" style="background-image: url('');">
@@ -9,7 +16,7 @@
         </span>
         <div class="pl-2 d-none d-xl-block">
             <div>{{ Auth::user()->name }}</div>
-            <div class="mt-1 small text-muted">Super Administrator</div>
+            <div class="mt-1 small text-sm text-green">Online</div>
         </div>
     </a>
     <div class="dropdown-menu dropdown-menu-right">

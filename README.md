@@ -1,9 +1,10 @@
 # LARAVEL TABLER
 
 [![Quality Score](https://scrutinizer-ci.com/g/codegoen/lava-tabler/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/codegoen/lava-tabler/?branch=master)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rizkhal/lara-tabler.svg?style=flat-square)](https://packagist.org/packages/rizkhal/lara-tabler)
 [![StyleCI](https://github.styleci.io/repos/268721029/shield?branch=master)](https://github.styleci.io/repos/268721029)
 [![Build Status](https://scrutinizer-ci.com/g/codegoen/lava-tabler/badges/build.png?b=master)](https://scrutinizer-ci.com/g/codegoen/lava-tabler/build-status/master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rizkhal/lara-tabler.svg?style=flat-square)](https://packagist.org/packages/rizkhal/lara-tabler)
 [![Total Downloads](https://img.shields.io/packagist/dt/rizkhal/lara-tabler.svg?style=flat-square)](https://packagist.org/packages/rizkhal/lara-tabler)
 
 ![Featured image](docs/img/featured2.png "Screenshot by @rizkhal")

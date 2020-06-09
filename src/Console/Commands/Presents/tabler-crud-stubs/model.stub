@@ -3,17 +3,21 @@
 namespace {{namespace}};
 
 use Illuminate\Database\Eloquent\Model;
-
 {{useSoftDeletes}}
-
 class {{class}} extends Model
 {
     {{softDeletes}}
-
+    /* The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = "{{table}}";
+    {{primaryKey}}
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
     protected $guarded = [];
+    {{relationships}}
 }

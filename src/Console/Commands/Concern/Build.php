@@ -1,8 +1,12 @@
 <?php
 
-namespace Rizkhal\Tabler\Console\Commands\Presents;
+declare(strict_types=1);
 
-abstract class Build
+namespace Rizkhal\Tabler\Console\Commands\Concern;
+
+use Illuminate\Support\Str;
+
+trait Build
 {
     protected function getStubs(string $filename): string
     {
@@ -19,7 +23,7 @@ abstract class Build
      */
     protected function replaceRootNamespace(string &$contents, string $rootNamespace): self
     {
-        $contents = str_replace("{{rootNamespace}}", "App", $rootNamespace);
+        $contents = str_replace("{{rootNamespace}}", "App\\Http", $contents);
 
         return $this;
     }
@@ -34,7 +38,7 @@ abstract class Build
      */
     protected function replaceNamespace(string &$contents, string $namespace): self
     {
-        $contents = str_replace("{{namespace}}", "App", $contents);
+        $contents = str_replace("{{namespace}}", $namespace, $contents);
 
         return $this;
     }
@@ -54,11 +58,32 @@ abstract class Build
         return $this;
     }
 
-    protected function replaceModelName(string &$contents, string $modelName)
+    protected function replaceBoolean(string &$contents, string $bool): self
+    {
+        $contents = str_replace("{{bool}}", $bool, $contents);
+
+        dump($contents);
+
+        return $this;
+    }
+
+    protected function replaceModelName(string &$contents, string $modelName): self
     {
         $contents = str_replace("{{modelName}}", $modelName, $contents);
 
-        dump($contents);
+        return $this;
+    }
+
+    protected function replaceRequestName(string &$contents, string $requestName): self
+    {
+        $contents = str_replace("{{requestName}}", $requestName, $contents);
+
+        return $this;
+    }
+
+    protected function replaceViewPathName(string &$contents, string $viewPathName): self
+    {
+        $contents = str_replace("{{viewPathName}}", $viewPathName, $contents);
 
         return $this;
     }

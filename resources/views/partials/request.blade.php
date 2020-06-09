@@ -6,17 +6,11 @@
     <div class="card-body">
       <div class="form-group mb-3 ">
         <label class="form-label">Request Namespace</label>
-          <input type="text" class="form-control" name="config-namespace">
-          @error('config-namespace')
-              {{$message}}
-          @enderror
+          <input type="text" class="form-control" name="request-namespace">
       </div>
       <div class="form-group mb-3 ">
         <label class="form-label required">Request Name</label>
-          <input type="text" class="form-control" name="request-name">
-          @error('request-name')
-              {{$message}}
-          @enderror
+          <input type="text" class="form-control" name="request" value="FooRequest">
       </div>
       <div class="form-group mb-3 ">
         <label class="form-label required">Authorize</label>

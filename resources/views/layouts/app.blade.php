@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-    <title>{{ $title ?? config('app.name', 'Laravel Tabler') }}</title>
+    <title>{{ $title ?? 'Tabler Crud Generator' }}</title>
     
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -18,12 +18,15 @@
 
   <body class="antialiased">
 
-    <!-- Navbar -->
+    <!-- Header -->
     @include('tabler::components.header')
+
+    <!-- Navbar -->
+    @include('tabler::components.navbar')
 
     <div class="page">
         <!-- Content -->
-        <div class="content container">
+        <div class="content container pt-0">
 
             @yield('content')
             <!-- Footer -->

@@ -7,17 +7,14 @@
       <div class="form-group mb-3 ">
         <label class="form-label">Controller Namespace</label>
           <input type="text" class="form-control" name="controller-namespace">
-          @error('controller-namespace')
-              {{$message}}
-          @enderror
       </div>
       <div class="form-group mb-3 ">
         <label class="form-label required">Controller Name</label>
-          <input type="text" class="form-control" name="controller-name">
+          <input type="text" class="form-control" name="controller" value="FooController">
       </div>
       <div class="form-group mb-3 ">
         <label class="form-label required">View Path / View Name</label>
-          <input type="text" class="form-control" name="view-path-name">
+          <input type="text" class="form-control" name="view-path-name" value="foo">
       </div>
     </div>
   </div>

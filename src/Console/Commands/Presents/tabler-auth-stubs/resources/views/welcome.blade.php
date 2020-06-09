@@ -35,10 +35,10 @@
                 @endauth
             </div>
         @endif
-        <div class="container" style="margin-top: 8em!important;">
+        <div class="container">
             <div class="row">
                 <div class="mx-auto col col-login">
-                    <div class="mb-3 text-center">
+                    <div class="text-center">
                         <a href="{{ url('') }}">
                             <svg class="h-6 text-dark" viewBox="0 0 50 52" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                                 <title>{{ config('app.name') }}</title>
@@ -46,11 +46,12 @@
                             </svg>
                         </a>
                     </div>
-                    <h1 class="mb-6 text-center display-5 font-weight-bold">
+
+                    <h1 class="text-center my-4 display-5 font-weight-bold">
                         Laravel
                     </h1>
 
-                    <div class="text-center links">
+                    <div class="text-center mt-3 links">
                         <a href="https://laravel.com/docs">Docs</a>
                         <a href="https://laracasts.com">Laracasts</a>
                         <a href="https://laravel-news.com">News</a>

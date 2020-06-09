@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Rizkhal\Tabler;
 
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
 use Rizkhal\Tabler\Console\Commands\TablerComponentCommand;
-use Rizkhal\Tabler\Console\Commands\TablerCrudCommand;
-use Rizkhal\Tabler\Http\Controllers\CrudGeneratorController;
+use Rizkhal\Tabler\Console\Commands\TablerControllerCommand;
+use Rizkhal\Tabler\Console\Commands\TablerModelCommand;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -19,7 +18,17 @@ class TablerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/tabler.php', 'tabler');
+
+        $this->app->bind("command.tabler:auth", TablerAuthCommand::class);
+        $this->app->bind("command.tabler:model", TablerModelCommand::class);
+        $this->app->bind("command.tabler:components", TablerComponentCommand::class);
+
+        $this->commands([
+            'command.tabler:auth',
+            'command.tabler:model',
+            'command.tabler:components',
+        ]);
     }
 
     /**
@@ -27,7 +36,8 @@ class TablerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configure()->loadResources()->registerRoutes();
+        $this->app->register(TablerRouteServiceProvider::class);
+        $this->configure()->loadResources();
     }
 
     /**
@@ -41,10 +51,10 @@ class TablerServiceProvider extends ServiceProvider
         Blade::component('layouts.auth', 'auth-layout');
 
         if ($this->app->runningInConsole()) {
-            $this->commands([
-                TablerAuthCommand::class,
-                TablerComponentCommand::class,
-            ]);
+
+            $this->publishes([
+                __DIR__.'/../config/tabler.php' => config_path('tabler.php'),
+            ], 'tabler-config');
         }
 
         return $this;
@@ -64,22 +74,6 @@ class TablerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(
             __DIR__.'/../resources/views', 'tabler'
         );
-
-        return $this;
-    }
-
-    protected function registerRoutes(): self
-    {
-        $group = [
-            "namespace" => "Rizkhal\Tabler\Http\Controllers",
-            "prefix" => "tabler",
-            "middleware" => ["web", "auth"]
-        ];
-
-        Route::group($group, function() {
-            Route::get("/", [CrudGeneratorController::class, "index"])->name("tabler.index");
-            Route::post("create", [CrudGeneratorController::class, "create"])->name("tabler.create");
-        });
 
         return $this;
     }
