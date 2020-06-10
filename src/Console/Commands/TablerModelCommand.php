@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 
 class TablerModelCommand extends GeneratorCommand
 {
+    use Concern\Handler;
+
     /**
      * The name and signature of the console command.
      *
@@ -17,10 +19,10 @@ class TablerModelCommand extends GeneratorCommand
      */
     protected $signature = 'tabler:model 
                             {name : The name of the model.}
-                            {--table=? : The name of the table.}
-                            {--pk=? : The name of the primarykey}
-                            {--relations=? : The relationships for the model}
-                            {--soft-deletes=? : Include soft deletes fields.}';
+                            {--table= : The name of the table.}
+                            {--pk= : The name of the primarykey}
+                            {--relations= : The relationships for the model}
+                            {--soft-deletes= : Include soft deletes fields.}';
 
     /**
      * The console command description.
@@ -71,7 +73,7 @@ class TablerModelCommand extends GeneratorCommand
         $relations = $this->getOption('relations') != '' ? explode(';', $this->getOption('relations')) : [];
         $softDeletes = $this->getOption('soft-deletes');
 
-        if (! is_null($primaryKey) || !empty($primaryKey)) {
+        if (! is_null($primaryKey) || ! empty($primaryKey)) {
             $primaryKey = <<<EOD
 
             \t/**
@@ -119,38 +121,6 @@ class TablerModelCommand extends GeneratorCommand
         return $ret->replaceClass($stub, $name);
     }
 
-    protected function createRelationshipFunction(&$stub, $relationName, $relationType, $string)
-    {
-        $code = <<<EOD
-
-        \t/**
-        \t * Relationships.
-        \t */
-        \tpublic function $relationName() {
-            \treturn \$this->$relationType($string);
-        \t}
-
-        EOD;
-
-        $str = '{{relationships}}';
-
-        $stub = str_replace($str, $code.$str, $stub);
-
-        return $this;
-    }
-
-    /**
-     * remove the relationships placeholder when it's no longer needed
-     *
-     * @param $stub
-     * @return $this
-     */
-    protected function replaceRelationshipPlaceholder(&$stub)
-    {
-        $stub = str_replace('{{relationships}}', '', $stub);
-        return $this;
-    }
-
     /**
      * Replace the (optional) soft deletes part for the given stub.
      *
@@ -196,8 +166,58 @@ class TablerModelCommand extends GeneratorCommand
      */
     protected function replacePrimaryKey(&$stub, $primaryKey): self
     {
+        $incrementing = <<<EOD
+        \t/**
+        \t * Indicates if the IDs are auto-incrementing.
+        \t *
+        \t * @var bool
+        \t */
+        \tpublic \$incrementing = false;
+
+        EOD;
+
+        $increment = "{{incrementing}}";
+
+        if (! is_null($primaryKey) || ! empty($primaryKey)) {
+            $stub = str_replace($increment, "\n".$incrementing.$increment, $stub);
+        }
+
+        $stub = str_replace($increment, '', $stub);
         $stub = str_replace('{{primaryKey}}', $primaryKey, $stub);
 
+
+        return $this;
+    }
+
+    protected function createRelationshipFunction(&$stub, $relationName, $relationType, $string)
+    {
+        $code = <<<EOD
+
+        \t/**
+        \t * Relationships $relationType.
+        \t */
+        \tpublic function $relationName() {
+            \treturn \$this->$relationType($string);
+        \t}
+
+        EOD;
+
+        $str = '{{relationships}}';
+
+        $stub = str_replace($str, $code.$str, $stub);
+
+        return $this;
+    }
+
+    /**
+     * remove the relationships placeholder when it's no longer needed
+     *
+     * @param $stub
+     * @return $this
+     */
+    protected function replaceRelationshipPlaceholder(&$stub)
+    {
+        $stub = str_replace('{{relationships}}', '', $stub);
         return $this;
     }
 

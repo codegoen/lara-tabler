@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Rizkhal\Tabler\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -27,7 +25,7 @@ class ModelController extends Controller
                 "--soft-deletes" => $request->softDeletes
             ]);
 
-            return redirect()->back()->with('message', 'Successfully created..');
+            return redirect()->back();
 
         } catch (CommandException $e) {
             dd($e);

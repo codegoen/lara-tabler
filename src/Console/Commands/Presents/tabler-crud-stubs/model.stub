@@ -12,7 +12,7 @@ class {{class}} extends Model
      * @var string
      */
     protected $table = "{{table}}";
-    {{primaryKey}}
+    {{primaryKey}}{{incrementing}}
     /**
      * Attributes that should be mass-assignable.
      *

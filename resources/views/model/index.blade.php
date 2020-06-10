@@ -8,7 +8,7 @@
                 <div class="col-md-8 mx-auto">
                     <div class="form-header mb-3">
                         @if (session()->has('message'))
-                            <x-alert type="success" dismiss="true">{{session()->get('message')}}</x-alert>
+                            <x-alert type="{{session()->get('type')}}" dismiss="true">{{session()->get('message')}}</x-alert>
                         @endif
                         <button type="submit" class="btn btn-primary">Create</button>
                         <button type="button" class="btn btn-warning ml-2">Reset</button>

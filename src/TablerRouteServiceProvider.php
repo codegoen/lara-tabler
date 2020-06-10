@@ -6,7 +6,7 @@ namespace Rizkhal\Tabler;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Rizkhal\Tabler\Http\Controllers\CrudGeneratorController;
+use Rizkhal\Tabler\Http\Controllers\CrudController;
 use Rizkhal\Tabler\Http\Controllers\ModelController;
 
 class TablerRouteServiceProvider extends ServiceProvider
@@ -16,7 +16,7 @@ class TablerRouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->routeModel()->routeView()->routeController();
+        $this->routeCrud()->routeModel();
     }
 
     /**
@@ -37,6 +37,22 @@ class TablerRouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Route for crud
+     * 
+     * @return self
+     */
+    protected function routeCrud(): self
+    {
+        Route::group($this->routeGroup("crud."), function() {
+            Route::get("/", [ModelController::class, "index"])->name("index");
+            Route::get("crud", [ModelController::class, "index"])->name("index");
+            Route::post("crud/create", [ModelController::class, "create"])->name("create");
+        });
+
+        return $this;
+    }
+    /**
+        /**
      * Route for model
      * 
      * @return self
@@ -60,8 +76,8 @@ class TablerRouteServiceProvider extends ServiceProvider
     protected function routeView(): self
     {
         Route::group($this->routeGroup("view."), function() {
-            Route::get("view", [CrudGeneratorController::class, "index"])->name("index");
-            Route::post("view/create", [CrudGeneratorController::class, "create"])->name("create");
+            Route::get("view", [CrudController::class, "index"])->name("index");
+            Route::post("view/create", [CrudController::class, "create"])->name("create");
         });
 
         return $this;
@@ -75,8 +91,8 @@ class TablerRouteServiceProvider extends ServiceProvider
     protected function routeController(): self
     {
         Route::group($this->routeGroup("controller."), function() {
-            Route::get("controller", [CrudGeneratorController::class, "index"])->name("index");
-            Route::get("controller/create", [CrudGeneratorController::class, "create"])->name("index");
+            Route::get("controller", [CrudController::class, "index"])->name("index");
+            Route::get("controller/create", [CrudController::class, "create"])->name("index");
             });
 
         return $this;
