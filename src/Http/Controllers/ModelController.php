@@ -11,7 +11,7 @@ class ModelController extends Controller
 {
     public function index()
     {
-        return view('tabler::model.index');
+        return view('tabler::model');
     }
 
     public function create(Request $request)
@@ -22,6 +22,7 @@ class ModelController extends Controller
                 "--pk" => $request->primaryKey,
                 "--table" => $request->tableName,
                 "--relations" => $request->relations,
+                "--accessor" => $request->accessor,
                 "--soft-deletes" => $request->softDeletes
             ]);
 

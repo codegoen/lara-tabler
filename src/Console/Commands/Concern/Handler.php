@@ -17,7 +17,10 @@ trait Handler {
         // language and that the class name will actually be valid. If it is not valid we
         // can error now and prevent from polluting the filesystem using invalid files.
         if ($this->isReservedName($this->getNameInput())) {
-            $this->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+
+            $reserved = "The name {$this->getNameInput} of {$this->type} is reserved by PHP.";
+
+            $this->error($reserved);
 
             return false;
         }
@@ -33,7 +36,7 @@ trait Handler {
              ! $this->option('force')) &&
              $this->alreadyExists($this->getNameInput())) {
 
-            $existsMessages = $this->type.' already exists!';
+            $existsMessages = "{$this->type} {$this->getNameInput()} already exists!";
 
             $this->error($existsMessages);
 
@@ -49,7 +52,7 @@ trait Handler {
 
         $this->files->put($path, $this->sortImports($this->buildClass($name)));
 
-        $successMessage = $this->type.' created successfully.';
+        $successMessage = "{$this->type} {$this->getNameInput()} created successfully.";
 
         $this->info($successMessage);
 

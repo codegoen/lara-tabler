@@ -22,6 +22,7 @@ class TablerModelCommand extends GeneratorCommand
                             {--table= : The name of the table.}
                             {--pk= : The name of the primarykey}
                             {--relations= : The relationships for the model}
+                            {--accessor= : The accessor method for the model}
                             {--soft-deletes= : Include soft deletes fields.}';
 
     /**
@@ -71,6 +72,7 @@ class TablerModelCommand extends GeneratorCommand
         $table = $this->getOption('table');
         $primaryKey = $this->getOption('pk');
         $relations = $this->getOption('relations') != '' ? explode(';', $this->getOption('relations')) : [];
+        $accessor = $this->getOption('accessor');
         $softDeletes = $this->getOption('soft-deletes');
 
         if (! is_null($primaryKey) || ! empty($primaryKey)) {
@@ -116,7 +118,8 @@ class TablerModelCommand extends GeneratorCommand
             $ret->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $argsString);
         }
 
-        $ret->replaceRelationshipPlaceholder($stub);
+        $ret->replaceAccessorName($stub, $accessor)
+            ->replaceRelationshipPlaceholder($stub);
 
         return $ret->replaceClass($stub, $name);
     }
@@ -189,6 +192,32 @@ class TablerModelCommand extends GeneratorCommand
         return $this;
     }
 
+    protected function replaceAccessorName(&$stub, $accessorName)
+    {
+        $code = <<<EOD
+        \t/**
+        \t * Accessor for $accessorName
+        \t *
+        \t * @param string \$value
+        \t */
+        \tpublic function $accessorName(\$value)
+        \t{
+            \treturn \$value;
+        \t}
+
+        EOD;
+
+        $str = '{{accessor}}';
+
+        if (! is_null($accessorName) || ! empty($accessorName)) {
+            $stub = str_replace($str, "\n".$code.$str, $stub);
+        }
+
+        $stub = str_replace($str, '', $stub);
+
+        return $this;
+    }
+
     protected function createRelationshipFunction(&$stub, $relationName, $relationType, $string)
     {
         $code = <<<EOD
@@ -196,7 +225,8 @@ class TablerModelCommand extends GeneratorCommand
         \t/**
         \t * Relationships $relationType.
         \t */
-        \tpublic function $relationName() {
+        \tpublic function $relationName()
+        \t{
             \treturn \$this->$relationType($string);
         \t}
 

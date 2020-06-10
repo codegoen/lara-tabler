@@ -7,15 +7,15 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
 use Rizkhal\Tabler\Console\Commands\Exceptions\CommandException;
 
-class CrudController extends Controller
+class ControllerController extends Controller
 {
     public function index()
     {
-        return view('tabler::crud');
+        return view('tabler::controller');
     }
 
     public function create(Request $request)
     {
-        //
+        dd($request->all());
     }
 }

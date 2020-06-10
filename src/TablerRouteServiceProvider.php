@@ -6,6 +6,7 @@ namespace Rizkhal\Tabler;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Rizkhal\Tabler\Http\Controllers\ControllerController;
 use Rizkhal\Tabler\Http\Controllers\CrudController;
 use Rizkhal\Tabler\Http\Controllers\ModelController;
 
@@ -16,7 +17,7 @@ class TablerRouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->routeCrud()->routeModel();
+        $this->routeCrud()->routeModel()->routeController();
     }
 
     /**
@@ -44,9 +45,9 @@ class TablerRouteServiceProvider extends ServiceProvider
     protected function routeCrud(): self
     {
         Route::group($this->routeGroup("crud."), function() {
-            Route::get("/", [ModelController::class, "index"])->name("index");
-            Route::get("crud", [ModelController::class, "index"])->name("index");
-            Route::post("crud/create", [ModelController::class, "create"])->name("create");
+            Route::get("/", [CrudController::class, "index"])->name("index");
+            Route::get("crud", [CrudController::class, "index"])->name("index");
+            Route::post("crud/create", [CrudController::class, "create"])->name("create");
         });
 
         return $this;
@@ -60,24 +61,8 @@ class TablerRouteServiceProvider extends ServiceProvider
     protected function routeModel(): self
     {
         Route::group($this->routeGroup("model."), function() {
-            Route::get("/", [ModelController::class, "index"])->name("index");
             Route::get("model", [ModelController::class, "index"])->name("index");
             Route::post("model/create", [ModelController::class, "create"])->name("create");
-        });
-
-        return $this;
-    }
-
-    /**
-     * Route for view
-     * 
-     * @return self
-     */
-    protected function routeView(): self
-    {
-        Route::group($this->routeGroup("view."), function() {
-            Route::get("view", [CrudController::class, "index"])->name("index");
-            Route::post("view/create", [CrudController::class, "create"])->name("create");
         });
 
         return $this;
@@ -91,8 +76,8 @@ class TablerRouteServiceProvider extends ServiceProvider
     protected function routeController(): self
     {
         Route::group($this->routeGroup("controller."), function() {
-            Route::get("controller", [CrudController::class, "index"])->name("index");
-            Route::get("controller/create", [CrudController::class, "create"])->name("index");
+            Route::get("controller", [ControllerController::class, "index"])->name("index");
+            Route::post("controller/create", [ControllerController::class, "create"])->name("create");
             });
 
         return $this;

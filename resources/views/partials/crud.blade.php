@@ -3,7 +3,7 @@
     <h3 class="card-title">Config Model</h3>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <div class="card-body">
         <div class="form-group mb-3">
           <label class="form-label required">Model Name</label>
@@ -20,21 +20,13 @@
           <label class="form-label">Table Name</label>
             <input type="text" class="form-control" name="tableName" value="foos">
         </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card-body">
         <div class="form-group mb-3 ">
           <label class="form-label">Primary Key</label>
             <input type="text" class="form-control" name="primaryKey" value="uuid">
         </div>
         <div class="form-group mb-3">
-          <label class="form-label">Relationships</label>
+          <label class="form-label">Add Relation</label>
             <input type="text" class="form-control" name="relations" value="bars#hasMany#App\Bar|id|bar_id">
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label">Accessor</label>
-            <input type="text" class="form-control" name="accessor" value="getThumbnail">
         </div>
       </div>
     </div>
