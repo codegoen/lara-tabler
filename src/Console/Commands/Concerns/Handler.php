@@ -1,6 +1,6 @@
 <?php
 
-namespace Rizkhal\Tabler\Console\Commands\Concern;
+namespace Rizkhal\Tabler\Console\Commands\Concerns;
 
 trait Handler {
 
@@ -57,5 +57,18 @@ trait Handler {
         $this->info($successMessage);
 
         session()->put(['type' => 'success', 'message' => $successMessage]);    
+    }
+
+    /**
+     * Get option
+     * 
+     * @param  string $option
+     * @return string|void
+     */
+    protected function getOption(string $option)
+    {
+        if (! is_null($options = $this->option($option))) {
+            return trim($options);
+        }
     }
 }

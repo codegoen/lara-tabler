@@ -10,6 +10,7 @@ use Rizkhal\Tabler\Console\Commands\TablerAuthCommand;
 use Rizkhal\Tabler\Console\Commands\TablerComponentCommand;
 use Rizkhal\Tabler\Console\Commands\TablerControllerCommand;
 use Rizkhal\Tabler\Console\Commands\TablerModelCommand;
+use Rizkhal\Tabler\Console\Commands\TablerRequestCommand;
 
 class TablerServiceProvider extends ServiceProvider
 {
@@ -22,11 +23,15 @@ class TablerServiceProvider extends ServiceProvider
 
         $this->app->bind("command.tabler:auth", TablerAuthCommand::class);
         $this->app->bind("command.tabler:model", TablerModelCommand::class);
+        $this->app->bind("command.tabler:request", TablerRequestCommand::class);
         $this->app->bind("command.tabler:components", TablerComponentCommand::class);
+        $this->app->bind("command.tabler:controller", TablerControllerCommand::class);
 
         $this->commands([
             'command.tabler:auth',
             'command.tabler:model',
+            'command.tabler:request',
+            'command.tabler:controller',
             'command.tabler:components',
         ]);
     }

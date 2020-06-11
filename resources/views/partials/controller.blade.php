@@ -7,7 +7,7 @@
       <div class="card-body">
         <div class="form-group mb-3">
           <label class="form-label required">Controller Name</label>
-            <input type="text" class="form-control" name="controllerName" value="Foo">
+            <input type="text" class="form-control" name="controllerName" value="FooController">
         </div>
         <div class="form-group mb-3">
           <label class="form-label required">Model Name</label>
@@ -27,11 +27,11 @@
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Request Name</label>
-            <input type="text" class="form-control" name="requestName" value="Foo">
+            <input type="text" class="form-control" name="requestName" value="FooRequest">
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Route Group</label>
-            <input type="text" class="form-control" name="routeGroup" value="foo.">
+            <input type="text" class="form-control" name="routeGroup" value="foo">
         </div>
       </div>
     </div>

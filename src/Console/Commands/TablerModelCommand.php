@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class TablerModelCommand extends GeneratorCommand
 {
-    use Concern\Handler;
+    use Concerns\Handler;
 
     /**
      * The name and signature of the console command.
@@ -20,10 +20,11 @@ class TablerModelCommand extends GeneratorCommand
     protected $signature = 'tabler:model 
                             {name : The name of the model.}
                             {--table= : The name of the table.}
-                            {--pk= : The name of the primarykey}
-                            {--relations= : The relationships for the model}
-                            {--accessor= : The accessor method for the model}
-                            {--soft-deletes= : Include soft deletes fields.}';
+                            {--pk= : The name of the primarykey.}
+                            {--relations= : The relationships for the model.}
+                            {--accessor= : The accessor method for the model.}
+                            {--soft-deletes= : Include soft deletes fields.}
+                            {--force : Overwrite already existing model.}';
 
     /**
      * The console command description.
@@ -249,18 +250,5 @@ class TablerModelCommand extends GeneratorCommand
     {
         $stub = str_replace('{{relationships}}', '', $stub);
         return $this;
-    }
-
-    /**
-     * Get option
-     * 
-     * @param  string $option
-     * @return string|void
-     */
-    protected function getOption(string $option)
-    {
-        if (! is_null($options = $this->option($option))) {
-            return trim($options);
-        }
     }
 }

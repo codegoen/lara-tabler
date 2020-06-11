@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Rizkhal\Tabler\Http\Controllers\ControllerController;
 use Rizkhal\Tabler\Http\Controllers\CrudController;
 use Rizkhal\Tabler\Http\Controllers\ModelController;
+use Rizkhal\Tabler\Http\Controllers\RequestController;
 
 class TablerRouteServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,11 @@ class TablerRouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->routeCrud()->routeModel()->routeController();
+        $this
+            ->routeCrud()
+            ->routeModel()
+            ->routeRequest()
+            ->routeController();
     }
 
     /**
@@ -78,6 +83,21 @@ class TablerRouteServiceProvider extends ServiceProvider
         Route::group($this->routeGroup("controller."), function() {
             Route::get("controller", [ControllerController::class, "index"])->name("index");
             Route::post("controller/create", [ControllerController::class, "create"])->name("create");
+            });
+
+        return $this;
+    }
+
+    /**
+     * Route for request
+     * 
+     * @return self
+     */
+    protected function routeRequest(): self
+    {
+        Route::group($this->routeGroup("request."), function() {
+            Route::get("request", [RequestController::class, "index"])->name("index");
+            Route::post("request/create", [RequestController::class, "create"])->name("create");
             });
 
         return $this;

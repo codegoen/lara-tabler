@@ -16,6 +16,20 @@ class ControllerController extends Controller
 
     public function create(Request $request)
     {
-        dd($request->all());
+        try {
+            $exit = Artisan::call("tabler:controller", [
+                "name" => $request->controllerName,
+                "--model-name" => $request->modelName,
+                "--crud-name" => $request->crudName,
+                "--view-path" => $request->viewPath,
+                "--request-name" => $request->requestName,
+                "--route-group" => $request->routeGroup
+            ]);
+
+            return redirect()->back();
+
+        } catch (CommandException $e) {
+            dd($e);
+        }
     }
 }
