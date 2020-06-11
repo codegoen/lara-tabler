@@ -19,8 +19,9 @@
     ],
     "require": {
         "php": "^7.3",
+        "illuminate/support": "^7.0",
         "laravel/ui": "^2.0",
-        "illuminate/support": "^7.0"
+        "yajra/laravel-datatables": "^1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.9.1",

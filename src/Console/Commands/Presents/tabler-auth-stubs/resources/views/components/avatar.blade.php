@@ -1,6 +1,6 @@
 @if (\Route::has('rizkhal.model.index'))
     <div class="nav-item">
-        <a href="{{ route('rizkhal.model.index') }}" class="nav-link d-flex lh-1 text-white px-3 color-white bg-pink mr-4">
+        <a href="{{ route('rizkhal.crud.index') }}" class="nav-link d-flex lh-1 text-white px-3 color-white bg-pink mr-4">
             Crud Generator
         </a>
     </div>

@@ -20,11 +20,14 @@ class TablerControllerCommand extends GeneratorCommand
      */
     protected $signature = 'tabler:controller 
                             {name : The name of the controller.}
+                            {--controller-namespace= : The namespace of the controller.}
                             {--model-name= : The name of the table.}
+                            {--model-namespace= : The namespace of the model.}
                             {--crud-name= : The name of the crud name.}
                             {--view-path= : The name of the directory crud path.}
                             {--request-name= : The name of the request name.}
                             {--route-group= : The name of the route group.}
+                            {--datatables= : The datatables for list resources}
                             {--force : Overwrite already existing controller.}';
 
     /**
@@ -42,26 +45,11 @@ class TablerControllerCommand extends GeneratorCommand
     protected $type = "Controller";
 
     /**
-     * Get the stub file for the generator.
+     * Build the class with the given name.
      *
+     * @param string $name
      * @return string
      */
-    protected function getStub()
-    {
-        return __DIR__ . '/Presents/tabler-crud-stubs/controller.stub';
-    }
-
-    /**
-     * Get default namespace 
-     * 
-     * @param  string $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace . "\\Http\\Controllers";
-    }
-
     public function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
@@ -69,19 +57,34 @@ class TablerControllerCommand extends GeneratorCommand
         $requestName = $this->getOption('request-name');
         $viewPathName = $this->getOption('view-path');
         $modelName = $this->getOption('model-name');
+        $modelNamespace = $this->getOption('model-namespace');
         $crudName = $this->getOption('crud-name');
         $groupName = $this->getOption('route-group');
+        $datatables = $this->getOption('datatables');
 
         $ret = $this->replaceNamespace($stub, $name)
                     ->replaceRequestName($stub, $requestName)
-                    ->replaceViewPathName($stub, $viewPathName)
                     ->replaceModelName($stub, $modelName)
-                    ->replaceCrudNamePlural($stub, $crudName)
-                    ->replaceCrudNameSingular($stub, $crudName)
-                    ->replaceRouteGroup($stub, $groupName)
+                    ->replaceModelNamespace($stub, $modelNamespace)
                     ->replaceClass($stub, $name);
 
-        dd($ret);
+        if (isset($datatables) && $datatables == true) {
+            $test = $this->callSilent('datatables:make', [
+                "name" => $modelName,
+                "--model" => $modelName,
+                "--model-namespace" => $modelNamespace,
+                "--builder"
+            ]);
+        }
+
+        return $ret;
+    }
+
+    protected function replaceModelNamespace(&$stub, $modelNamespace)
+    {
+        $stub = str_replace('{{modelNamespace}}', $modelNamespace, $stub);
+
+        return $this;
     }
 
     protected function replaceRequestName(&$stub, $requestName): self
@@ -124,5 +127,27 @@ class TablerControllerCommand extends GeneratorCommand
         $stub = str_replace('{{routeGroup}}', $groupName, $stub);
 
         return $this;
+    }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        return __DIR__ . '/Presents/tabler-crud-stubs/controller.stub';
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string $rootNamespace
+     *
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace . '\\' . ($this->option('controller-namespace') ? $this->option('controller-namespace') : 'Http\Controllers');
     }
 }

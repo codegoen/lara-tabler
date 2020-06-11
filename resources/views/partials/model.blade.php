@@ -9,6 +9,10 @@
           <label class="form-label required">Model Name</label>
             <input type="text" class="form-control" name="modelName" value="Foo">
         </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Model Namespace</label>
+            <input type="text" class="form-control" name="modelNamespace" value="Models\Admin">
+        </div>
         <div class="form-group mb-3 ">
           <label class="form-label required">Soft Deletes</label>
           <select class="form-select" name="softDeletes">
@@ -35,6 +39,10 @@
         <div class="form-group mb-3">
           <label class="form-label">Accessor</label>
             <input type="text" class="form-control" name="accessor" value="getThumbnail">
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Mutator</label>
+            <input type="text" class="form-control" name="mutator" value="">
         </div>
       </div>
     </div>

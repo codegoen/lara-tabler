@@ -19,9 +19,12 @@ class ControllerController extends Controller
         try {
             $exit = Artisan::call("tabler:controller", [
                 "name" => $request->controllerName,
+                "--controller-namespace" => $request->controllerNamespace,
                 "--model-name" => $request->modelName,
+                "--model-namespace" => $request->modelNamespace,
                 "--crud-name" => $request->crudName,
                 "--view-path" => $request->viewPath,
+                "--datatables" => $request->datatables,
                 "--request-name" => $request->requestName,
                 "--route-group" => $request->routeGroup
             ]);

@@ -19,6 +19,7 @@ class TablerModelCommand extends GeneratorCommand
      */
     protected $signature = 'tabler:model 
                             {name : The name of the model.}
+                            {--model-namespace= : The namespace of the model.}
                             {--table= : The name of the table.}
                             {--pk= : The name of the primarykey.}
                             {--relations= : The relationships for the model.}
@@ -39,27 +40,6 @@ class TablerModelCommand extends GeneratorCommand
      * @var string
      */
     protected $type = "Model";
-
-    /**
-     * Get the stub file for the generator.
-     *
-     * @return string
-     */
-    protected function getStub()
-    {
-        return __DIR__ . '/Presents/tabler-crud-stubs/model.stub';
-    }
-
-    /**
-     * Get default namespace 
-     * 
-     * @param  string $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace;
-    }
 
     /**
      * Build the class
@@ -250,5 +230,26 @@ class TablerModelCommand extends GeneratorCommand
     {
         $stub = str_replace('{{relationships}}', '', $stub);
         return $this;
+    }
+
+    /**
+     * Get the stub file for the generator.
+     *
+     * @return string
+     */
+    protected function getStub()
+    {
+        return __DIR__ . '/Presents/tabler-crud-stubs/model.stub';
+    }
+
+    /**
+     * Get default namespace 
+     * 
+     * @param  string $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace . '\\' . ($this->option('model-namespace') ? $this->option('model-namespace') : $rootNamespace);
     }
 }

@@ -19,6 +19,7 @@ class ModelController extends Controller
         try {
             $exit = Artisan::call("tabler:model", [
                 "name" => $request->modelName,
+                "--model-namespace" => $request->modelNamespace,
                 "--pk" => $request->primaryKey,
                 "--table" => $request->tableName,
                 "--relations" => $request->relations,

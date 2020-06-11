@@ -45,7 +45,12 @@
           </li>
         </ul>
         <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
-          <a href="#" class="btn bg-pink text-white">
+          @if (\Route::has('home'))
+            <a href="{{ route('home') }}" class="btn bg-pink text-white">
+              Go Home
+            </a>
+          @endif
+          <a href="#" class="btn bg-indigo text-white">
             Documentation
           </a>
         </div>
