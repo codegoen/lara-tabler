@@ -19,7 +19,7 @@
         </div>
         <div class="form-group mb-3">
           <label class="form-label">Model Namespace</label>
-            <input type="text" class="form-control" name="modelNamespace" value="Models\Admin">
+            <input type="text" class="form-control" name="modelNamespace" value="Models\Admin\">
         </div>
         <div class="form-group mb-3">
           <label class="form-label required">Crud Name</label>

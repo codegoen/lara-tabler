@@ -54,77 +54,112 @@ class TablerControllerCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $requestName = $this->getOption('request-name');
-        $viewPathName = $this->getOption('view-path');
+        return $this->replaceNamespace($stub, $name)
+                    ->replaceRequestName($stub)
+                    ->replaceModelName($stub)
+                    ->replaceModelNamespace($stub)
+                    ->replaceViewPathName($stub)
+                    ->replaceUseDataTables($stub)
+                    ->replaceCrudName($stub)
+                    ->replaceClass($stub, $name);
+    }
+
+    protected function getCheckDataTable()
+    {
+        $dataTableClass = "App\\DataTables\\".$this->getOption('model-name')."DataTable";
+        return $this->alreadyExists($dataTableClass);
+    }
+
+    protected function replaceUseDataTables(&$stub): self
+    {
+        $viewPath = $this->getOption('view-path'); 
         $modelName = $this->getOption('model-name');
         $modelNamespace = $this->getOption('model-namespace');
-        $crudName = $this->getOption('crud-name');
-        $groupName = $this->getOption('route-group');
-        $datatables = $this->getOption('datatables');
+        $crudName = Str::plural($this->getOption('crud-name'));
 
-        $ret = $this->replaceNamespace($stub, $name)
-                    ->replaceRequestName($stub, $requestName)
-                    ->replaceModelName($stub, $modelName)
-                    ->replaceModelNamespace($stub, $modelNamespace)
-                    ->replaceClass($stub, $name);
-
-        if (isset($datatables) && $datatables == true) {
+        if (! is_null($this->getOption('datatables'))) {
             $test = $this->callSilent('datatables:make', [
                 "name" => $modelName,
-                "--model" => $modelName,
                 "--model-namespace" => $modelNamespace,
-                "--builder"
+                "--model",
             ]);
+
+            $params = "{$modelName}DataTable \$dataTable";
+
+            $dataTableClass = "App\\DataTables\\{$modelName}DataTable";
+
+            $render = "return \$dataTable->render('$viewPath.index');";
+
+            $stub = str_replace('{{dataTableParam}}', $params, $stub);
+            $stub = str_replace('{{renderAble}}', $render, $stub);
+            $stub = str_replace('{{useDataTables}}', "use $dataTableClass;\n", $stub);
+        } else {
+
+            $defaultRender = "return view('$viewPath.index', ['".$crudName."' => $modelName::latest()]);";
+
+            $stub = str_replace('{{useDataTables}}', '', $stub);
+            $stub = str_replace('{{dataTableParam}}', '', $stub);
+            $stub = str_replace('{{renderAble}}', $defaultRender, $stub);
         }
 
-        return $ret;
+        return $this;
     }
 
-    protected function replaceModelNamespace(&$stub, $modelNamespace)
+    /**
+     * Replace the model namespace given from stub
+     * 
+     * @param  string &$stub
+     * @return self
+     */
+    protected function replaceModelNamespace(&$stub)
     {
-        $stub = str_replace('{{modelNamespace}}', $modelNamespace, $stub);
+        $stub = str_replace('{{modelNamespace}}', $this->getOption('model-namespace'), $stub);
 
         return $this;
     }
 
-    protected function replaceRequestName(&$stub, $requestName): self
+    /**
+     * Replace the request name given from stub
+     * 
+     * @param  string &$stub
+     * @return self
+     */
+    protected function replaceRequestName(&$stub): self
     {
-        $stub = str_replace("{{requestName}}", $requestName, $stub);
+        $stub = str_replace("{{requestName}}", $this->getOption('request-name'), $stub);
 
         return $this;
     }
 
-    protected function replaceViewPathName(&$stub, $viewPathName): self
+    protected function replaceViewPathName(&$stub): self
     {
-        $stub = str_replace("{{viewPathName}}", $viewPathName, $stub);
+        $stub = str_replace("{{viewPathName}}", $this->getOption('view-path'), $stub);
 
         return $this;
     }
 
-    protected function replaceModelName(&$stub, $modelName): self
+    protected function replaceModelName(&$stub): self
     {
-        $stub = str_replace('{{modelName}}', $modelName, $stub);
+        $stub = str_replace('{{modelName}}', $this->getOption('model-name'), $stub);
 
         return $this;
     }
 
-    protected function replaceCrudNamePlural(&$stub, $crudName): self
+    protected function replaceCrudName(&$stub): self
     {
-        $stub = str_replace('{{crudNamePlural}}', Str::plural($crudName), $stub);
+        $crudName = $this->getOption('crud-name');
 
-        return $this;
-    }
+        $searches = [
+            ['{{crudNameSingular}}', '{{crudNamePlural}}']
+        ];
 
-    protected function replaceCrudNameSingular(&$stub, $crudName): self
-    {
-        $stub = str_replace('{{crudNameSingular}}', Str::singular($crudName), $stub);
-
-        return $this;
-    }
-
-    protected function replaceRouteGroup(&$stub, $groupName): self
-    {
-        $stub = str_replace('{{routeGroup}}', $groupName, $stub);
+        foreach ($searches as $search) {
+            $stub = str_replace(
+                $search,
+                [Str::singular($crudName), Str::plural($crudName)],
+                $stub
+            );
+        }
 
         return $this;
     }

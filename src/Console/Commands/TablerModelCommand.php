@@ -50,29 +50,13 @@ class TablerModelCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
-        $table = $this->getOption('table');
-        $primaryKey = $this->getOption('pk');
+
         $relations = $this->getOption('relations') != '' ? explode(';', $this->getOption('relations')) : [];
-        $accessor = $this->getOption('accessor');
-        $softDeletes = $this->getOption('soft-deletes');
-
-        if (! is_null($primaryKey) || ! empty($primaryKey)) {
-            $primaryKey = <<<EOD
-
-            \t/**
-            \t * The database primary key value.
-            \t *
-            \t * @var string
-            \t */
-            \tprotected \$primaryKey = '$primaryKey';
-
-            EOD;
-        }
 
         $ret = $this->replaceNamespace($stub, $name)
-                    ->replaceSoftDeletes($stub, $softDeletes)
-                    ->replaceTableName($stub, $table ?: Str::plural(strtolower($this->argument('name'))))
-                    ->replacePrimaryKey($stub, $primaryKey);
+                    ->replaceSoftDeletes($stub)
+                    ->replaceTableName($stub)
+                    ->replacePrimaryKey($stub);
 
         foreach ($relations as $relation) {
             // relationName#relationType#args_separated_by_pipes
@@ -99,7 +83,7 @@ class TablerModelCommand extends GeneratorCommand
             $ret->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $argsString);
         }
 
-        $ret->replaceAccessorName($stub, $accessor)
+        $ret->replaceAccessorName($stub)
             ->replaceRelationshipPlaceholder($stub);
 
         return $ret->replaceClass($stub, $name);
@@ -109,13 +93,11 @@ class TablerModelCommand extends GeneratorCommand
      * Replace the (optional) soft deletes part for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $replaceSoftDelete
-     *
      * @return $this
      */
-    protected function replaceSoftDeletes(&$stub, $replaceSoftDelete)
+    protected function replaceSoftDeletes(&$stub)
     {
-        if ($replaceSoftDelete == 'true') {
+        if ($this->getOption('soft-deletes') == 'true') {
             $stub = str_replace('{{softDeletes}}', "use SoftDeletes;\n    ", $stub);
             $stub = str_replace('{{useSoftDeletes}}', "use Illuminate\Database\Eloquent\SoftDeletes;\n", $stub);
         } else {
@@ -130,12 +112,12 @@ class TablerModelCommand extends GeneratorCommand
      * Replace the table for the given stub.
      *
      * @param  string  $stub
-     * @param  string  $table
-     *
      * @return $this
      */
-    protected function replaceTableName(&$stub, $table)
+    protected function replaceTableName(&$stub)
     {
+        $table = $this->getOption('table') ?: Str::plural(strtolower($this->argument('name')));
+
         $stub = str_replace('{{table}}', $table, $stub);
 
         return $this;
@@ -148,8 +130,23 @@ class TablerModelCommand extends GeneratorCommand
      * @param  string $primaryKey
      * @return self 
      */
-    protected function replacePrimaryKey(&$stub, $primaryKey): self
+    protected function replacePrimaryKey(&$stub): self
     {
+        $primaryKey = $this->getOption('pk');
+
+        if (! is_null($primaryKey) || ! empty($primaryKey)) {
+            $primaryKey = <<<EOD
+
+            \t/**
+            \t * The database primary key value.
+            \t *
+            \t * @var string
+            \t */
+            \tprotected \$primaryKey = '$primaryKey';
+
+            EOD;
+        }
+
         $incrementing = <<<EOD
         \t/**
         \t * Indicates if the IDs are auto-incrementing.
@@ -173,8 +170,10 @@ class TablerModelCommand extends GeneratorCommand
         return $this;
     }
 
-    protected function replaceAccessorName(&$stub, $accessorName)
+    protected function replaceAccessorName(&$stub)
     {
+        $accessorName = $this->getOption('accessor');
+
         $code = <<<EOD
         \t/**
         \t * Accessor for $accessorName

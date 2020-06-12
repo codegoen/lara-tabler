@@ -29,6 +29,26 @@ trait Handler {
 
         $path = $this->getPath($name);
 
+        // Check method exists in all object has this trait
+        if (method_exists($this, 'getCheckDataTable')) {
+            // Check incoming request datatables exists or not
+            if (! is_null($this->getOption('datatables'))) {
+                // Check force update datatable exists or not
+                if ((! $this->hasOption('force') ||
+                    ! $this->option('force')) &&
+                    $this->getCheckDataTable()) {
+
+                    $existsMessages = "DataTable ".$this->getOption('model-name')."DataTable already exists!";
+
+                    $this->error($existsMessages);
+
+                    session()->put(['type' => 'danger', 'message' => $existsMessages]);
+
+                    return false;
+                }
+            }
+        }
+
         // Next, We will check to see if the class already exists. If it does, we don't want
         // to create the class and overwrite the user's code. So, we will bail out so the
         // code is untouched. Otherwise, we will continue generating this class' files.
