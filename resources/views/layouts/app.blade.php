@@ -34,9 +34,9 @@
         </div>
     </div>
 
-    @stack('scripts')
-    <?php session()->forget('message') ?>
     <script src="{{ mix('js/app.js') }}" charset="utf-8"></script>
+    <?php session()->forget('message') ?>
+    @stack('scripts')
   </body>
 
 </html>

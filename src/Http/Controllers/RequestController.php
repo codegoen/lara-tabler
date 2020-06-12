@@ -20,7 +20,7 @@ class RequestController extends Controller
             $exit = Artisan::call("tabler:request", [
                 "name" => $request->requestName,
                 "--authorized" => $request->authorized, 
-                "--field-rules" => $request->fieldRules,
+                "--field-rules" => array_filter($request->fieldRules),
             ]);
 
             return redirect()->back();
