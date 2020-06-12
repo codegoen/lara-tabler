@@ -80,7 +80,7 @@ class {{class}} extends Controller
     public function update({{requestName}} $request, $id)
     {
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
-        if (${{crudNameSingular}} = {{modelName}}::update($request->data())) {
+        if (${{crudNameSingular}}->update($request->data())) {
             return redirect()->back();
         } else {
             throw new \Exception("Error Processing Request", 1);
