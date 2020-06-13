@@ -37,6 +37,13 @@
     <script src="{{ mix('js/app.js') }}" charset="utf-8"></script>
     <?php session()->forget('message') ?>
     @stack('scripts')
+    <script lang="javascript">
+        $(document).ready(function() {
+            $(document).on('click', '.btn-reset', function() {
+                $('form')[0].reset();
+            });
+        });
+    </script>
   </body>
 
 </html>

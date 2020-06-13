@@ -52,7 +52,7 @@ class TablerModelCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        $ret = $this->replaceNamespace($stub, $name)
+        return $this->replaceNamespace($stub, $name)
                     ->replaceSoftDeletes($stub)
                     ->replaceTableName($stub)
                     ->replacePrimaryKey($stub)
@@ -62,7 +62,7 @@ class TablerModelCommand extends GeneratorCommand
                     ->replaceRelationshipPlaceholder($stub)
                     ->replaceClass($stub, $name);
 
-        dd($ret);
+
     }
 
     /**
@@ -306,6 +306,8 @@ class TablerModelCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . '\\' . ($this->option('model-namespace') ? $this->option('model-namespace') : $rootNamespace);
+        $namespace = $this->option('model-namespace');
+
+        return $namespace ? $rootNamespace."\\".$namespace : $rootNamespace;
     }
 }

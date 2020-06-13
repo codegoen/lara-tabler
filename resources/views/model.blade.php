@@ -11,7 +11,7 @@
                             <x-alert type="{{session()->get('type')}}" dismiss="true">{{session()->get('message')}}</x-alert>
                         @endif
                         <button type="submit" class="btn btn-primary">Create</button>
-                        <button type="button" class="btn btn-warning ml-2">Reset</button>
+                        <button type="button" class="btn-reset btn btn-warning ml-2">Reset</button>
                     </div>
                     @include("tabler::partials.model")
                     {{-- @include("tabler::partials.controller") --}}
