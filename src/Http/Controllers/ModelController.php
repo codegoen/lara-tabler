@@ -24,6 +24,7 @@ class ModelController extends Controller
                 "--table" => $request->tableName,
                 "--relations" => array_filter($request->relations),
                 "--accessor" => $request->accessor,
+                "--mutator" => $request->mutator,
                 "--soft-deletes" => $request->softDeletes
             ]);
 

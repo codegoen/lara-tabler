@@ -19,5 +19,5 @@ class {{class}} extends Model
      * @var array
      */
     protected $guarded = [];
-    {{accessor}}{{relationships}}
+    {{accessor}}{{mutator}}{{relationships}}
 }

@@ -24,6 +24,7 @@ class TablerModelCommand extends GeneratorCommand
                             {--pk= : The name of the primarykey.}
                             {--relations= : The relationships for the model.}
                             {--accessor= : The accessor method for the model.}
+                            {--mutator= : The mutator method for the model.}
                             {--soft-deletes= : Include soft deletes fields.}
                             {--force : Overwrite already existing model.}';
 
@@ -51,14 +52,17 @@ class TablerModelCommand extends GeneratorCommand
     {
         $stub = $this->files->get($this->getStub());
 
-        return $this->replaceNamespace($stub, $name)
+        $ret = $this->replaceNamespace($stub, $name)
                     ->replaceSoftDeletes($stub)
                     ->replaceTableName($stub)
                     ->replacePrimaryKey($stub)
                     ->replaceAccessorName($stub)
+                    ->replaceMutatorName($stub)
                     ->replaceRelations($stub)
                     ->replaceRelationshipPlaceholder($stub)
                     ->replaceClass($stub, $name);
+
+        dd($ret);
     }
 
     /**
@@ -173,6 +177,7 @@ class TablerModelCommand extends GeneratorCommand
 
     /**
      * Replace accessor name fro the given stub
+     * 
      * @param  string &$stub
      * @return self
      */
@@ -196,6 +201,40 @@ class TablerModelCommand extends GeneratorCommand
         $str = '{{accessor}}';
 
         if (! is_null($accessorName) || ! empty($accessorName)) {
+            $stub = str_replace($str, "\n".$code.$str, $stub);
+        }
+
+        $stub = str_replace($str, '', $stub);
+
+        return $this;
+    }
+
+    /**
+     * Replace mutator name fro the given stub
+     * 
+     * @param  string &$stub
+     * @return self
+     */
+    protected function replaceMutatorName(&$stub): self
+    {
+        $mutatorName = $this->getOption('mutator');
+
+        $code = <<<EOD
+        \t/**
+        \t * Mutator for $mutatorName
+        \t *
+        \t * @param string \$value
+        \t */
+        \tpublic function $mutatorName(\$value)
+        \t{
+            \t\$this->attributes['column'] = \$value;
+        \t}
+
+        EOD;
+
+        $str = '{{mutator}}';
+
+        if (! is_null($mutatorName) || ! empty($mutatorName)) {
             $stub = str_replace($str, "\n".$code.$str, $stub);
         }
 

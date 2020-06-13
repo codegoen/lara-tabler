@@ -32,6 +32,14 @@
           <label class="form-label">Primary Key</label>
             <input type="text" class="form-control" name="primaryKey" value="uuid">
         </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Accessor</label>
+            <input type="text" class="form-control" name="accessor" value="getThumbnailAttribute">
+        </div>
+        <div class="form-group mb-3">
+          <label class="form-label">Mutator</label>
+            <input type="text" class="form-control" name="mutator" value="setFirstNameAttribute">
+        </div>
         <div class="form-group mb-3 field-container">
           <label class="form-label">Relationships</label>
           <div class="input-group mb-2">
@@ -48,14 +56,6 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-md" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"></path><circle cx="12" cy="12" r="9"></circle><path d="M10 10l4 4m0 -4l-4 4"></path></svg>
             </span>
           </div>
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label">Accessor</label>
-            <input type="text" class="form-control" name="accessor" value="getThumbnail">
-        </div>
-        <div class="form-group mb-3">
-          <label class="form-label">Mutator</label>
-            <input type="text" class="form-control" name="mutator" value="">
         </div>
       </div>
     </div>
