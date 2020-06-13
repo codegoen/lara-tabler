@@ -44,58 +44,59 @@ class TablerModelCommand extends GeneratorCommand
     /**
      * Build the class
      * 
-     * @param  string $name [description]
+     * @param  string $name
      * @return string
      */
     protected function buildClass($name)
     {
         $stub = $this->files->get($this->getStub());
 
-        $relations = $this->getOption('relations') != '' ? explode(';', $this->getOption('relations')) : [];
-
-        $ret = $this->replaceNamespace($stub, $name)
+        return $this->replaceNamespace($stub, $name)
                     ->replaceSoftDeletes($stub)
                     ->replaceTableName($stub)
-                    ->replacePrimaryKey($stub);
+                    ->replacePrimaryKey($stub)
+                    ->replaceAccessorName($stub)
+                    ->replaceRelations($stub)
+                    ->replaceRelationshipPlaceholder($stub)
+                    ->replaceClass($stub, $name);
+    }
+
+    /**
+     * Replace the (optional) relationships part for the given stub.
+     *
+     * @param  string  $stub
+     * @return self
+     */
+    protected function replaceRelations(&$stub): self
+    {
+        $relations = ! is_null($this->option('relations')) ? $this->option('relations') : [];
 
         foreach ($relations as $relation) {
-            // relationName#relationType#args_separated_by_pipes
-            // e.g. employees#hasMany#App\Employee|id|dept_id
-            // user is responsible for ensuring these relationships are valid
             $parts = explode('#', $relation);
-
             if (count($parts) != 3) {
                 continue;
             }
 
-            $args = explode('|', trim($parts[2]));
-            $argsString = '';
-            foreach ($args as $i => $v) {
-                if (trim($v) == '') {
-                    continue;
-                }
+            $parts2 = explode('|', $parts[2]);
 
-                $argsString .= "'".trim($v)."', ";
+            $string = '';
+            foreach ($parts2 as $key => $value) {
+                $string .= "'".trim($value)."',";
             }
 
-            $argsString = substr($argsString, 0, -2); // remove last comma
-
-            $ret->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $argsString);
+            $this->createRelationshipFunction($stub, trim($parts[0]), trim($parts[1]), $string);
         }
 
-        $ret->replaceAccessorName($stub)
-            ->replaceRelationshipPlaceholder($stub);
-
-        return $ret->replaceClass($stub, $name);
+        return $this;
     }
 
     /**
      * Replace the (optional) soft deletes part for the given stub.
      *
      * @param  string  $stub
-     * @return $this
+     * @return self
      */
-    protected function replaceSoftDeletes(&$stub)
+    protected function replaceSoftDeletes(&$stub): self
     {
         if ($this->getOption('soft-deletes') == 'true') {
             $stub = str_replace('{{softDeletes}}', "use SoftDeletes;\n    ", $stub);
@@ -112,9 +113,9 @@ class TablerModelCommand extends GeneratorCommand
      * Replace the table for the given stub.
      *
      * @param  string  $stub
-     * @return $this
+     * @return self
      */
-    protected function replaceTableName(&$stub)
+    protected function replaceTableName(&$stub): self
     {
         $table = $this->getOption('table') ?: Str::plural(strtolower($this->argument('name')));
 
@@ -170,7 +171,12 @@ class TablerModelCommand extends GeneratorCommand
         return $this;
     }
 
-    protected function replaceAccessorName(&$stub)
+    /**
+     * Replace accessor name fro the given stub
+     * @param  string &$stub
+     * @return self
+     */
+    protected function replaceAccessorName(&$stub): self
     {
         $accessorName = $this->getOption('accessor');
 
@@ -198,12 +204,23 @@ class TablerModelCommand extends GeneratorCommand
         return $this;
     }
 
+    /**
+     * Create relationships method for the given stub
+     * 
+     * @param  string &$stub
+     * @param  string $relationName
+     * @param  string $relationType
+     * @param  string $string      
+     * @return self
+     */
     protected function createRelationshipFunction(&$stub, $relationName, $relationType, $string)
     {
+        $to = str_replace("'", '', explode(',', $string)[0]);
+
         $code = <<<EOD
 
         \t/**
-        \t * Relationships $relationType.
+        \t * Relationships $relationType to $to.
         \t */
         \tpublic function $relationName()
         \t{
@@ -223,11 +240,12 @@ class TablerModelCommand extends GeneratorCommand
      * remove the relationships placeholder when it's no longer needed
      *
      * @param $stub
-     * @return $this
+     * @return self
      */
-    protected function replaceRelationshipPlaceholder(&$stub)
+    protected function replaceRelationshipPlaceholder(&$stub): self
     {
         $stub = str_replace('{{relationships}}', '', $stub);
+
         return $this;
     }
 

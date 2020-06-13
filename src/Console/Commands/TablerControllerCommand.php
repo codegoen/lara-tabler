@@ -113,7 +113,14 @@ class TablerControllerCommand extends GeneratorCommand
      */
     protected function replaceModelNamespace(&$stub)
     {
-        $stub = str_replace('{{modelNamespace}}', $this->getOption('model-namespace'), $stub);
+        $modelNamespace = $this->getOption('model-namespace');
+        $lastChar = substr($modelNamespace, -1);
+
+        if ($lastChar != '\\') {
+            $modelNamespace .= '\\';
+        }
+
+        $stub = str_replace('{{modelNamespace}}', $modelNamespace, $stub);
 
         return $this;
     }

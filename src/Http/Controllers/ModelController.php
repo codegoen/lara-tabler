@@ -22,7 +22,7 @@ class ModelController extends Controller
                 "--model-namespace" => $request->modelNamespace,
                 "--pk" => $request->primaryKey,
                 "--table" => $request->tableName,
-                "--relations" => $request->relations,
+                "--relations" => array_filter($request->relations),
                 "--accessor" => $request->accessor,
                 "--soft-deletes" => $request->softDeletes
             ]);

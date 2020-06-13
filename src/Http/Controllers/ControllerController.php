@@ -25,8 +25,7 @@ class ControllerController extends Controller
                 "--crud-name" => $request->crudName,
                 "--view-path" => $request->viewPath,
                 "--datatables" => $request->datatables,
-                "--request-name" => $request->requestName,
-                "--route-group" => $request->routeGroup
+                "--request-name" => $request->requestName
             ]);
 
             return redirect()->back();
